@@ -12,7 +12,7 @@ const Navbar = () => {
                     isActive
                         ? "font-bold text-orange-700"
                         : "hover:text-orange-900 font-semibold transition"
-                } to='/clubs'>Clubs</NavLink>
+                } to='/allClubs'>Clubs</NavLink>
     <NavLink  className={({ isActive }) =>
                     isActive
                         ? "font-bold text-orange-700"
@@ -20,7 +20,7 @@ const Navbar = () => {
                 } to='/events'>Events</NavLink>
     </>
     return (
-        <div className="navbar w-11/12 mx-auto bg-[#FFAA6E] shadow-sm text-white">
+        <div className="navbar sticky top-0 z-50 w-full bg-[#FFAA6E] shadow-sm text-white">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

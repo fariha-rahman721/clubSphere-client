@@ -1,12 +1,20 @@
 import React from 'react';
-import Navbar from '../../Components/Navbar';
-import { Outlet } from 'react-router';
+import { useLoaderData } from 'react-router';
+import Hero from '../../Components/Hero';
+import Clubs from '../../Components/Clubs/Clubs';
+import HowClubSphereWorks from '../HowClubSphereWorks/HowClubSphereWorks';
+
+
 
 const Home = () => {
+    const data = useLoaderData();
+
+
     return (
-        <div className=''>
-            
-            
+        <div>
+            <Hero data={data} />
+            <Clubs data={data}></Clubs>
+            <HowClubSphereWorks data={data}></HowClubSphereWorks>
         </div>
     );
 };

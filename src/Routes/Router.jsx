@@ -22,15 +22,20 @@ export const router = createBrowserRouter([
                 }
                 
             },
-            {
-                path: '/events',
-                element: <Events></Events>
-            },
+            
             {
                 path: '/allClubs',
                 element: <AllClubs></AllClubs>,
                 loader:async () => {
                     const res = await fetch('http://localhost:3000/clubsCollection');
+                    return res.json()
+                }
+            },
+            {
+                path: '/events',
+                element: <Events></Events>,
+                loader:async () => {
+                    const res = await fetch('http://localhost:3000/events');
                     return res.json()
                 }
             },

@@ -42,8 +42,7 @@ const HowItWorks = () => {
                             <div className="relative mb-8">
 
                                 {index > 0 && (
-                                    <div className="absolute inset-y-0 left-0 right-1/2 border-t-2 border-gray-200 hidden md:block
-                    translate-x-[-100%] mt-6"
+                                    <div className="absolute inset-y-0 left-0 right-1/2 border-t-2 border-gray-200 hidden md:block translate-x-[-100%] mt-6"
                                     />
                                 )}
 

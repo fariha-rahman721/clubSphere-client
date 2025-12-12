@@ -10,7 +10,7 @@ const ClubDetails = () => {
     return (
         <div>
            
-            <div className="">
+            <div className="w-full my-10">
              {details ? (
                     <SingleClub details={details} />
                 ) : (

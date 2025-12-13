@@ -4,7 +4,9 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.config';
 import toast, { Toaster } from 'react-hot-toast';
-import Navbar from '../../Components/Navbar';
+import { useForm } from 'react-hook-form';
+
+
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -14,15 +16,18 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleRegister = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const name = form.name.value;
-        const photo = form.photo.value;
-        const email = form.email.value;
-        const password = form.password.value;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-        // Password validation
+    const onSubmit = (data) => {
+        const { name, photo, email, password } = data;
+
+        
+
+        // Password validation (unchanged logic)
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
@@ -40,24 +45,24 @@ const Register = () => {
             setPasswordError('');
         }
 
-        // Register user
         setLoading(true);
+
         createUser(email, password)
-            .then(result => {
+            .then((result) => {
                 const user = result.user;
                 updateUser({ displayName: name, photoURL: photo })
                     .then(() => {
                         setUser({ ...user, displayName: name, photoURL: photo });
                         toast.success(`Welcome ${name}!`);
-                        navigate('/');
+                        navigate('/auth/login');
                         setLoading(false);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         toast.error(err.message);
                         setLoading(false);
                     });
             })
-            .catch(err => {
+            .catch((err) => {
                 toast.error(err.message);
                 setLoading(false);
             });
@@ -65,66 +70,86 @@ const Register = () => {
 
     const handleGoogleRegister = () => {
         signInWithPopup(auth, googleProvider)
-            .then(result => {
+            .then((result) => {
                 const user = result.user;
                 setUser(user);
-                toast.success(`Welcome ${user.displayName || "User"}!`);
+                toast.success(`Welcome ${user.displayName || 'User'}!`);
                 navigate('/');
             })
-            .catch(err => toast.error(err.message));
+            .catch((err) => toast.error(err.message));
     };
 
     return (
         <div className="w-11/12 max-w-4xl mx-auto">
-            
-
             <div className="flex justify-center items-center min-h-screen px-2 sm:px-4">
                 <div className="card bg-base-100 w-full max-w-sm sm:max-w-md md:max-w-lg shadow-2xl py-5 px-4 sm:px-6 md:px-8">
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-orange-500 mb-4">
                         Join ClubSphere
                     </h1>
 
-                    <form onSubmit={handleRegister} className="card-body p-0 flex flex-col gap-4">
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="card-body p-0 flex flex-col gap-4"
+                    >
                         <label className="label text-sm sm:text-base">Name</label>
                         <input
-                            name="name"
+                            {...register('name', { required: true,
+                                maxLength: {
+                                    value:20,
+                                    message: "Name cannot be too long"
+                                }
+                             })}
                             type="text"
                             className="input w-full"
                             placeholder="Your name"
                             required
                         />
+                        {errors.name && <p className='text-red-500 text-xs'>{errors.name.message}</p>}
 
                         <label className="label text-sm sm:text-base">Photo URL</label>
                         <input
-                            name="photo"
+                            {...register('photo', { required: true ,
+                                message: "Photo is required"
+                            })}
                             type="url"
                             className="input w-full"
                             placeholder="Photo URL"
                             required
                         />
+                         {errors.photo && <p className='text-red-500 text-xs'>{errors.name.message}</p>}
 
                         <label className="label text-sm sm:text-base">Email</label>
                         <input
-                            name="email"
+                            {...register('email', { required: true ,
+                                 message: "Email is required"
+                            })}
                             type="email"
                             className="input w-full"
                             placeholder="Email"
                             required
                         />
+                         {errors.email && <p className='text-red-500 text-xs'>{errors.name.message}</p>}
 
                         <label className="label text-sm sm:text-base">Password</label>
                         <input
-                            name="password"
+                            {...register('password', { required: true ,
+                                 message: "Password is required"
+                            })}
                             type="password"
                             className="input w-full"
                             placeholder="Password"
                             required
                         />
-                        {passwordError && <p className="text-xs sm:text-sm text-red-500">{passwordError}</p>}
+
+                        {passwordError && (
+                            <p className="text-xs sm:text-sm text-red-500">
+                                {passwordError}
+                            </p>
+                        )}
 
                         <button
                             type="submit"
-                            className="btn bg-[#FFAA6E] hover:bg-orange-400 text-white w-full sm:w-auto mt-2"
+                            className="btn bg-[#FFAA6E] hover:bg-orange-500 text-white w-full sm:w-auto mt-2"
                             disabled={loading}
                         >
                             {loading ? 'Registering...' : 'Register'}
@@ -134,22 +159,21 @@ const Register = () => {
                             type="button"
                             onClick={handleGoogleRegister}
                             className="btn btn-outline w-full sm:w-auto mt-2 flex items-center justify-center gap-2"
+                        ><svg
+                            aria-label="Google logo"
+                            width="16"
+                            height="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
                         >
-                            <svg
-                                aria-label="Google logo"
-                                width="16"
-                                height="16"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 512 512"
-                            >
-                                <g>
-                                    <path d="m0 0H512V512H0" fill="#fff"></path>
-                                    <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
-                                    <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
-                                    <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
-                                    <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
-                                </g>
-                            </svg>
+                            <g>
+                                <path d="m0 0H512V512H0" fill="#fff"></path>
+                                <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
+                                <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
+                                <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
+                                <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
+                            </g>
+                        </svg>
                             Register with Google
                         </button>
 
@@ -165,7 +189,6 @@ const Register = () => {
 
             <Toaster />
         </div>
-
     );
 };
 

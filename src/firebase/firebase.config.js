@@ -6,14 +6,14 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAmnaTZq_8WRqgG9c5AH7I9dBcqVs4MWUY",
-  authDomain: "club-sphere-cc5a1.firebaseapp.com",
-  projectId: "club-sphere-cc5a1",
-  storageBucket: "club-sphere-cc5a1.firebasestorage.app",
-  messagingSenderId: "803123981116",
-  appId: "1:803123981116:web:273d1a692df7c9087bcc39"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+ export const app = initializeApp(firebaseConfig);
  export const auth = getAuth(app)

@@ -8,6 +8,9 @@ import ClubDetails from "../Components/Clubs/ClubDetails";
 import AllClubs from "../Pages/AllClubs/AllClubs";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
+import ForgetPassword from "../Pages/Auth/ForgetPassword";
+import UserProfile from "../Components/UserProfile";
+import Dashboard from "../Components/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
     {
@@ -50,12 +53,24 @@ export const router = createBrowserRouter([
                 }
             },
             {
+                path: "/userProfile",
+                element: <UserProfile></UserProfile>
+            },
+            {
+                path: '/dashboard',
+                element: <Dashboard></Dashboard>
+            },
+            {
                 path: '/auth/login',
                 element: <Login></Login>
             },
             {
                 path: '/auth/register',
                 element: <Register></Register>
+            },
+            {
+                path: '/auth/forgetPassword',
+                element: <ForgetPassword></ForgetPassword>
             },
         ]}
 

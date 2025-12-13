@@ -15,7 +15,7 @@ const ForgetPassword = () => {
         }
     }, [location.state]);
 
-    
+
     const handleResetPassword = (e) => {
         e.preventDefault();
         const email = emailRef.current.value;

@@ -45,7 +45,7 @@ const Login = () => {
         }
 
 
-        navigate('/auth/forget-password', { state: { email } });
+        navigate('/auth/forgetPassword', { state: { email } });
     };
 
 
@@ -55,7 +55,7 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 toast.success(`Welcome ${user.displayName || user.email}!`);
-                navigate('/myActivities');
+                navigate('/');
             })
             .catch(error => {
                 toast.error(error.message);

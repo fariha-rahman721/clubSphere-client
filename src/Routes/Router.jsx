@@ -6,6 +6,8 @@ import MainLayout from "../Layout/MainLayout";
 import Error from "../Pages/Error/Error";
 import ClubDetails from "../Components/Clubs/ClubDetails";
 import AllClubs from "../Pages/AllClubs/AllClubs";
+import Login from "../Pages/Auth/Login";
+import Register from "../Pages/Auth/Register";
 
 export const router = createBrowserRouter([
     {
@@ -46,7 +48,15 @@ export const router = createBrowserRouter([
                     const res = await fetch(`http://localhost:3000/clubsCollection`);
                     return res.json()
                 }
-            }
+            },
+            {
+                path: '/auth/login',
+                element: <Login></Login>
+            },
+            {
+                path: '/auth/register',
+                element: <Register></Register>
+            },
         ]}
 
 

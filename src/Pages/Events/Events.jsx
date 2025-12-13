@@ -24,7 +24,7 @@ const Events = ({ clubName }) => {
                         className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col"
                     >
                         {/* Image */}
-                        <div className="relative h-48 overflow-hidden">
+                        <div className="relative h-80 overflow-hidden">
                             <img
                                 src={event.imageUrl}
                                 alt={event.title}
@@ -51,7 +51,7 @@ const Events = ({ clubName }) => {
                                 </p>
                             )}
 
-                            <h3 className="text-lg font-bold text-slate-800 mb-1 line-clamp-2">
+                            <h3 className="text-orange-600 text-xl font-extrabold mb-1 line-clamp-2">
                                 {event.title}
                             </h3>
 
@@ -80,14 +80,14 @@ const Events = ({ clubName }) => {
                             {/* Footer */}
                             <div className="mt-auto pt-4 border-t border-slate-200 flex items-center justify-between">
                                 <span
-                                    className={`font-bold text-lg ${event.isPaid ? "text-slate-800" : "text-[#FFAA6E]"
+                                    className={`font-bold text-lg text-orange-600 ${event.isPaid ? "text-orange-600" : "text-orange-700"
                                         }`}
                                 >
                                     {event.isPaid ? `৳${event.eventFee}` : "Free"}
                                 </span>
 
-                                <button className="px-4 py-2 bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-lg text-sm font-semibold transition">
-                                    {event.isPaid ? "Registration" : "RSVP"}
+                                <button className="px-4 py-2 bg-orange-400 text-white border border-slate-200 hover:bg-orange-700 rounded-lg text-sm font-semibold transition">
+                                    {event.isPaid ? "Registration" : "Join now"}
                                 </button>
                             </div>
                         </div>

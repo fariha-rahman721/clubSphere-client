@@ -47,8 +47,25 @@ const Navbar = () => {
             >
                 Events
             </NavLink>
+            
+             {
+            user && <>
+            <NavLink
+                className={({ isActive }) =>
+                    isActive
+                        ? "font-bold text-orange-700"
+                        : "hover:text-orange-900 font-semibold transition"
+                }
+                to="/dashboard/myClubs"
+            >
+                My Clubs
+            </NavLink>
+            </>
+        }
         </>
+       
     );
+    
 
     return (
         <div className="navbar sticky top-0 z-50 w-full bg-[#FFAA6E] shadow-sm text-white">

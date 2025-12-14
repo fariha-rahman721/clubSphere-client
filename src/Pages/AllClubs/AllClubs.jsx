@@ -9,6 +9,7 @@ const AllClubs = () => {
 
     return (
         <div>
+        
             <h1 className="text-2xl font-bold text-center mb-6 mt-5">Choose your Tribe</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 w-11/12 mx-auto mb-16">
                 {data && data.length > 0 ? (

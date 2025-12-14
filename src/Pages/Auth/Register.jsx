@@ -86,7 +86,7 @@ const Register = () => {
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-orange-500 mb-4">
                         Join ClubSphere
                     </h1>
-
+ 
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="card-body p-0 flex flex-col gap-4"

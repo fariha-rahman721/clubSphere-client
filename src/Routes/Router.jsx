@@ -10,7 +10,14 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import ForgetPassword from "../Pages/Auth/ForgetPassword";
 import UserProfile from "../Components/UserProfile";
-import Dashboard from "../Components/Dashboard/Dashboard";
+
+import DashboardLayout from "../Layout/DashboardLayout";
+import PrivateRoute from "../Provider/PrivateRoute";
+import MyClubs from "../Components/Dashboard/MyClubs/MyClubs";
+import Loading from "../Components/Loading";
+import EventRegistrationCard from "../Components/Dashboard/EventRegistrationCard/EventRegistrationCard";
+import MyEvents from "../Components/Dashboard/MyEvents/MyEvents";
+import MembershipCard from "../Components/MembershipCard/MembershipCard";
 
 export const router = createBrowserRouter([
     {
@@ -53,13 +60,19 @@ export const router = createBrowserRouter([
                 }
             },
             {
+                path: '/loading',
+                element: <Loading></Loading>
+            },
+            {
                 path: "/userProfile",
                 element: <UserProfile></UserProfile>
             },
             {
-                path: '/dashboard',
-                element: <Dashboard></Dashboard>
+                path: '/membershipCard/:id',
+                element: <MembershipCard></MembershipCard>
             },
+            
+            
             {
                 path: '/auth/login',
                 element: <Login></Login>
@@ -72,6 +85,28 @@ export const router = createBrowserRouter([
                 path: '/auth/forgetPassword',
                 element: <ForgetPassword></ForgetPassword>
             },
+            {
+                path: "/dashboard",
+                element: <PrivateRoute>
+                <DashboardLayout></DashboardLayout>
+                </PrivateRoute>,
+                children:
+                [
+                    {
+                        path: "myClubs",
+                        element: <MyClubs></MyClubs>
+                    },
+                    {
+                        path: 'eventRegistration',
+                        element: <EventRegistrationCard></EventRegistrationCard>
+                    },
+                    {
+                        path: 'myEvents',
+                        element: <MyEvents></MyEvents>
+                    }
+                    
+                ]
+            }
         ]}
 
 

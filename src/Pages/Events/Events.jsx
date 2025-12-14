@@ -1,6 +1,6 @@
 import React from "react";
 import { MapPin, Clock, Users } from "lucide-react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 
 const Events = ({ clubName }) => {
     const events = useLoaderData(); // Load all event data
@@ -86,9 +86,9 @@ const Events = ({ clubName }) => {
                                     {event.isPaid ? `৳${event.eventFee}` : "Free"}
                                 </span>
 
-                                <button className="px-4 py-2 bg-orange-400 text-white border border-slate-200 hover:bg-orange-700 rounded-lg text-sm font-semibold transition">
-                                    {event.isPaid ? "Registration" : "Join now"}
-                                </button>
+                                <Link to='/eventRegistration' className="px-4 py-2 bg-orange-400 text-white border border-slate-200 hover:bg-orange-700 rounded-lg text-sm font-semibold transition">
+                                    {event.isPaid ? "Register Now" : "Join now"}
+                                </Link>
                             </div>
                         </div>
                     </div>

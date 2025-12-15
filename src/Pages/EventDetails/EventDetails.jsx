@@ -90,7 +90,7 @@ const EventDetails = () => {
                     </p>
                 )}
 
-                <Link to='/dashboard/eventRegistration'
+                <Link to='/dashboard/payment'
                     className={`mt-4 w-full py-2 rounded-lg text-white font-bold text-center ${isPaid ? "bg-[#FFAA6E] hover:bg-orange-600" : "bg-green-500 hover:bg-green-600"
                         } transition-colors duration-200`}
                 >

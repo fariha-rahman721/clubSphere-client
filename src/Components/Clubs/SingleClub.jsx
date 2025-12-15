@@ -27,34 +27,38 @@ const SingleClub = ({ details }) => {
     };
 
     const handleFreeJoin = async () => {
+        if (!user?.email) {
+            toast.error("You must be logged in to join.");
+            return;
+        }
+
         const membership = {
             userEmail: user.email,
             clubId: details._id,
-            status: details.type,
-            paymentId: details.type === "premium" ? null : null, 
+            status: "active",
+            paymentId: null,
             joinedAt: new Date(),
             expiresAt: null,
-
         };
 
         try {
             const res = await fetch("http://localhost:3000/joinClubs", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(membership)
+                body: JSON.stringify(membership),
             });
 
+            if (!res.ok) throw new Error("Failed to join club");
+
             const data = await res.json();
-            
-            toast.success(`Successfully joined as ${details.type === "active" ? "Free" : "Premium"} member`);
-            res.send(data);
+            console.log("Membership added:", data);
+
+            toast.success(`Successfully joined ${details.clubName}`);
         } catch (err) {
             console.error(err);
+            toast.error("Failed to join club. Try again!");
         }
     };
-
-
-
 
 
     useEffect(() => {
@@ -186,7 +190,7 @@ const SingleClub = ({ details }) => {
                                 </ul>
 
                                 <div className="mt-6">
-                                    <Link to={`/membershipCard/${details._id}`} className="btn btn-block">Get Premium Access</Link>
+                                    <Link to={`/dashboard/payment`} className="btn btn-block">Get Premium Access</Link>
                                 </div>
 
                             </div>

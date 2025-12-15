@@ -4,27 +4,48 @@ import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import Loading from "../../Loading";
 
 const MyClubs = () => {
-    const { user } = UseAuth();              
+    const { user } = UseAuth();
     const axiosSecure = UseAxiosSecure();
 
     const { data: myClubs = [], isLoading } = useQuery({
         queryKey: ["myClubs", user?.email],
-        enabled: !!user?.email,               
+        enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(
-                `/joinClubs?email=${user.email}`
-            );
+            const res = await axiosSecure.get(`/myClubs?email=${user.email}`);
             return res.data;
         },
     });
 
     if (isLoading) {
-        return <Loading></Loading>;
+        return <Loading />;
+    }
+
+    if (myClubs.length === 0) {
+        return <p className="text-center mt-10 text-gray-500">You have not joined any clubs yet.</p>;
     }
 
     return (
-        <div>
-            <h1>My Joined Clubs: {myClubs.length}</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            {myClubs.map(club => (
+                <div key={club._id} className="bg-white shadow-lg rounded-xl overflow-hidden">
+                    <img src={club.bannerImage} alt={club.clubName} className="w-full h-48 object-cover" />
+                    <div className="p-4">
+                        <h2 className="text-xl font-bold">{club.clubName}</h2>
+                        <p className="text-gray-600 mt-2">{club.description}</p>
+                        <p className="text-sm mt-2 text-gray-500">
+                            Joined At: {new Date(club.joinInfo.joinedAt).toLocaleDateString()}
+                        </p>
+                        <p className="text-sm mt-1 text-gray-500">
+                            Status: {club.joinInfo.status}
+                        </p>
+                        {club.joinInfo.paymentId && (
+                            <p className="text-sm mt-1 text-green-500">
+                                Paid Membership
+                            </p>
+                        )}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };

@@ -15,10 +15,13 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import PrivateRoute from "../Provider/PrivateRoute";
 import MyClubs from "../Components/Dashboard/MyClubs/MyClubs";
 import Loading from "../Components/Loading";
-import EventRegistrationCard from "../Components/Dashboard/EventRegistrationCard/EventRegistrationCard";
+
 import MyEvents from "../Components/Dashboard/MyEvents/MyEvents";
-import MembershipCard from "../Components/MembershipCard/MembershipCard";
+
 import EventDetails from "../Pages/EventDetails/EventDetails";
+import CreateEvent from "../Components/Dashboard/CreateEvent/CreateEvent";
+import Payment from "../Components/Dashboard/Payment/Payment";
+
 
 export const router = createBrowserRouter([
     {
@@ -68,10 +71,8 @@ export const router = createBrowserRouter([
                 path: "/userProfile",
                 element: <UserProfile></UserProfile>
             },
-            {
-                path: '/membershipCard/:id',
-                element: <MembershipCard></MembershipCard>
-            },
+        
+            
             {
                 path: '/eventDetails/:id',
                 element: <EventDetails></EventDetails>
@@ -101,13 +102,18 @@ export const router = createBrowserRouter([
                         path: "myClubs",
                         element: <MyClubs></MyClubs>
                     },
-                    {
-                        path: 'eventRegistration',
-                        element: <EventRegistrationCard></EventRegistrationCard>
-                    },
+                    
                     {
                         path: 'myEvents',
                         element: <MyEvents></MyEvents>
+                    },
+                    {
+                        path: 'createEvent',
+                        element: <CreateEvent></CreateEvent>
+                    },
+                    {
+                        path: 'payment',
+                        element: <Payment></Payment>
                     }
                     
                 ]

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router';
 import { SiSamsclub } from "react-icons/si";
-import { MdEventAvailable } from "react-icons/md";
+import { MdCreateNewFolder, MdEventAvailable } from "react-icons/md";
 import { Link, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -52,17 +52,7 @@ const DashboardLayout = () => {
                         </li>
 
                         <li>
-                            <NavLink
-                                to="/dashboard/eventRegistration"
-                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-orange-600 font-semibold flex items-center gap-2"
-                                data-tip="Event Registration"
-                            >
-                                {/* My Clubs icon */}
-                                <SiSamsclub className="my-1.5 inline-block size-4" />
-
-                                {/* Text hides when drawer is closed */}
-                                <span className="is-drawer-close:hidden">Event Registration</span>
-                            </NavLink>
+                            
                             <NavLink
                                 to="/dashboard/myEvents"
                                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-orange-600 font-semibold flex items-center gap-2"
@@ -73,6 +63,17 @@ const DashboardLayout = () => {
 
                                 {/* Text hides when drawer is closed */}
                                 <span className="is-drawer-close:hidden">My Events</span>
+                            </NavLink>
+                            <NavLink
+                                to="/dashboard/createEvent"
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-orange-600 font-semibold flex items-center gap-2"
+                                data-tip="My Events"
+                            >
+                                {/* My Clubs icon */}
+                                <MdCreateNewFolder className="my-1.5 inline-block size-4" />
+
+                                {/* Text hides when drawer is closed */}
+                                <span className="is-drawer-close:hidden">Create Events</span>
                             </NavLink>
                         </li>
 

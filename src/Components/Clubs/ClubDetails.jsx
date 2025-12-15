@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
-import Navbar from '../Navbar';
+
 import SingleClub from './SingleClub';
 
 const ClubDetails = () => {

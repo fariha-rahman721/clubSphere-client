@@ -2,16 +2,20 @@ import { Calendar, Clock, Mail, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Wings from './Wings';
 import { Link } from 'react-router';
-import toast from 'react-hot-toast';
+
 
 import UseAuth from '../Hooks/UseAuth';
+import toast from 'react-hot-toast';
+
 
 
 
 
 const SingleClub = ({ details }) => {
     const [wingsData, setWingsData] = useState([]);
-    const {user} = UseAuth()
+    const { user } = UseAuth()
+
+
     const imgSrc = details.bannerImage;
     const formatDate = (dateStr) => {
         if (!dateStr) return "N/A";
@@ -26,17 +30,31 @@ const SingleClub = ({ details }) => {
         const membership = {
             userEmail: user.email,
             clubId: details._id,
-            status: "active",
-            paymentId: null,
+            status: details.type,
+            paymentId: details.type === "premium" ? null : null, 
+            joinedAt: new Date(),
+            expiresAt: null,
+
         };
 
         try {
-            await axiosSecure.post("/joinClubs", membership);
-            toast.success("Successfully joined the club!");
-        } catch (error) {
-            toast.error("Already joined or something went wrong", error);
+            const res = await fetch("http://localhost:3000/joinClubs", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(membership)
+            });
+
+            const data = await res.json();
+            
+            toast.success(`Successfully joined as ${details.type === "active" ? "Free" : "Premium"} member`);
+            res.send(data);
+        } catch (err) {
+            console.error(err);
         }
     };
+
+
+
 
 
     useEffect(() => {

@@ -18,6 +18,7 @@ import Loading from "../Components/Loading";
 import EventRegistrationCard from "../Components/Dashboard/EventRegistrationCard/EventRegistrationCard";
 import MyEvents from "../Components/Dashboard/MyEvents/MyEvents";
 import MembershipCard from "../Components/MembershipCard/MembershipCard";
+import EventDetails from "../Pages/EventDetails/EventDetails";
 
 export const router = createBrowserRouter([
     {
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
             {
                 path: '/membershipCard/:id',
                 element: <MembershipCard></MembershipCard>
+            },
+            {
+                path: '/eventDetails/:id',
+                element: <EventDetails></EventDetails>
             },
             
             

@@ -21,6 +21,8 @@ import MyEvents from "../Components/Dashboard/MyEvents/MyEvents";
 import EventDetails from "../Pages/EventDetails/EventDetails";
 import CreateEvent from "../Components/Dashboard/CreateEvent/CreateEvent";
 import Payment from "../Components/Dashboard/Payment/Payment";
+import PaymentSuccess from "../Components/Dashboard/Payment/PaymentSuccess";
+import PaymentCancelled from "../Components/Dashboard/Payment/PaymentCancelled";
 
 
 export const router = createBrowserRouter([
@@ -114,7 +116,15 @@ export const router = createBrowserRouter([
                     {
                         path: 'payment',
                         element: <Payment></Payment>
-                    }
+                    },
+                    {
+                        path: 'payment-success',
+                        element: <PaymentSuccess></PaymentSuccess>
+                    },
+                    {
+                        path: 'payment-cancel',
+                        element: <PaymentCancelled></PaymentCancelled>
+                    },
                     
                 ]
             }

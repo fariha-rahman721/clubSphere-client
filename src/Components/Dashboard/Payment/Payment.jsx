@@ -28,6 +28,41 @@ const Payment = ({ onSubmit, onCancel }) => {
         }));
     };
 
+
+    const handlePayment = async () => {
+
+        // ✅ FORM VALIDATION
+        if (
+            !formData.userEmail ||
+            !formData.amount ||
+            (formData.type === "membership" && !formData.clubId) ||
+            (formData.type === "event" && !formData.eventId)
+        ) {
+            toast.error("Please fill up the form");
+            return;
+        }
+
+        try {
+            const paymentInfo = {
+                amount: Number(formData.amount),
+                clubId: formData.clubId,
+                senderEmail: formData.userEmail,
+                clubName: "Club Membership",
+            };
+
+            const res = await axios.post(
+                "http://localhost:3000/create-checkout-session",
+                paymentInfo
+            );
+
+            window.location.href = res.data.url;
+        } catch (error) {
+            console.error(error);
+            toast.error("Stripe payment failed");
+        }
+    };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -37,18 +72,17 @@ const Payment = ({ onSubmit, onCancel }) => {
         };
 
         try {
-            // Send payment data to backend
             const res = await axios.post(
                 "http://localhost:3000/payments",
-                paymentData
+                paymentData,
+                window.location.href = res.data.url
             );
-            res.send()
+
 
             toast.success("Payment saved successfully");
 
             if (onSubmit) onSubmit(paymentData);
 
-            // Reset form
             setFormData({
                 userEmail: "",
                 amount: "",
@@ -66,10 +100,9 @@ const Payment = ({ onSubmit, onCancel }) => {
 
     return (
         <div className="w-full max-w-xl m-10 mx-auto bg-white rounded-2xl shadow-xl p-8">
-            {/* Header */}
             <div className="mb-6 bg-[#FFAA6E] p-5 rounded-xl pb-4">
                 <h2 className="text-2xl font-bold flex items-center gap-2 text-white">
-                    <CreditCard className="text-white" />
+                    <CreditCard />
                     Payment
                 </h2>
                 <p className="text-sm text-white mt-1">
@@ -78,7 +111,6 @@ const Payment = ({ onSubmit, onCancel }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Email */}
                 <div>
                     <label className="text-sm font-medium text-gray-600">
                         User Email
@@ -91,13 +123,12 @@ const Payment = ({ onSubmit, onCancel }) => {
                             required
                             value={formData.userEmail}
                             onChange={handleChange}
-                            className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+                            className="w-full pl-10 pr-3 py-2 border rounded-lg"
                             placeholder="user@email.com"
                         />
                     </div>
                 </div>
 
-                {/* Amount */}
                 <div>
                     <label className="text-sm font-medium text-gray-600">
                         Amount
@@ -111,13 +142,12 @@ const Payment = ({ onSubmit, onCancel }) => {
                             min="1"
                             value={formData.amount}
                             onChange={handleChange}
-                            className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+                            className="w-full pl-10 pr-3 py-2 border rounded-lg"
                             placeholder="e.g. 29"
                         />
                     </div>
                 </div>
 
-                {/* Payment Type */}
                 <div>
                     <label className="text-sm font-medium text-gray-600">
                         Payment Type
@@ -126,26 +156,24 @@ const Payment = ({ onSubmit, onCancel }) => {
                         name="type"
                         value={formData.type}
                         onChange={handleChange}
-                        className="w-full mt-1 py-2 px-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+                        className="w-full mt-1 py-2 px-3 border rounded-lg"
                     >
                         <option value="membership">Membership</option>
                         <option value="event">Event</option>
                     </select>
                 </div>
 
-                {/* Conditional IDs */}
                 {formData.type === "membership" && (
                     <div>
                         <label className="text-sm font-medium text-gray-600">
-                            Club ID
+                            Club Name
                         </label>
                         <input
                             type="text"
                             name="clubId"
                             value={formData.clubId}
                             onChange={handleChange}
-                            className="w-full mt-1 py-2 px-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
-                            placeholder="Club ObjectId"
+                            className="w-full mt-1 py-2 px-3 border rounded-lg"
                         />
                     </div>
                 )}
@@ -160,16 +188,14 @@ const Payment = ({ onSubmit, onCancel }) => {
                             name="eventId"
                             value={formData.eventId}
                             onChange={handleChange}
-                            className="w-full mt-1 py-2 px-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
-                            placeholder="Event ObjectId"
+                            className="w-full mt-1 py-2 px-3 border rounded-lg"
                         />
                     </div>
                 )}
 
-                {/* Transaction ID */}
                 <div>
                     <label className="text-sm font-medium text-gray-600">
-                        Transaction / Payment Intent ID
+                        Transaction ID
                     </label>
                     <div className="relative mt-1">
                         <Hash className="absolute left-3 top-3 text-gray-400" size={18} />
@@ -179,46 +205,43 @@ const Payment = ({ onSubmit, onCancel }) => {
                             required
                             value={formData.transactionId}
                             onChange={handleChange}
-                            className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
-                            placeholder="pi_3Nxxxx / txn_123"
+                            className="w-full pl-10 pr-3 py-2 border rounded-lg"
                         />
                     </div>
                 </div>
 
-                {/* Status */}
                 <div>
                     <label className="text-sm font-medium text-gray-600">
                         Payment Status
                     </label>
-                    <div className="relative mt-1">
-                        <CheckCircle className="absolute left-3 top-3 text-gray-400" size={18} />
-                        <select
-                            name="status"
-                            value={formData.status}
-                            onChange={handleChange}
-                            className="w-full pl-10 py-2 pr-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
-                        >
-                            <option value="pending">Pending</option>
-                            <option value="paid">Paid</option>
-                            <option value="failed">Failed</option>
-                        </select>
-                    </div>
+                    <select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="w-full mt-1 py-2 px-3 border rounded-lg"
+                    >
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                        <option value="failed">Failed</option>
+                    </select>
                 </div>
 
-                {/* Actions */}
                 <div className="flex gap-4 pt-4">
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="flex-1 py-2 border rounded-lg hover:bg-gray-100 transition"
+                        className="flex-1 py-2 border rounded-lg"
                     >
                         Cancel
                     </button>
+
+                    {/* ✅ FIXED BUTTON */}
                     <button
-                        type="submit"
-                        className="flex-1 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold"
+                        type="button"
+                        onClick={handlePayment}
+                        className="flex-1 py-2 bg-indigo-600 text-white rounded-lg font-semibold"
                     >
-                        Save Payment
+                        Pay Now
                     </button>
                 </div>
             </form>

@@ -1,7 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+
 import UseAuth from "../../Hooks/UseAuth";
-import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Loading";
+import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 
 const MyClubs = () => {
     const { user } = UseAuth();
@@ -11,14 +12,18 @@ const MyClubs = () => {
         queryKey: ["myClubs", user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/myClubs?email=${user.email}`);
+            const token = await user.getIdToken(); 
+            const res = await axiosSecure.get(`/myClubs?email=${user.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
             return res.data;
         },
     });
 
-    if (isLoading) {
-        return <Loading />;
-    }
+    if (isLoading) return <Loading />;
 
     if (myClubs.length === 0) {
         return <p className="text-center mt-10 text-gray-500">You have not joined any clubs yet.</p>;

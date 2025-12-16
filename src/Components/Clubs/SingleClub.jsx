@@ -178,7 +178,7 @@ const SingleClub = ({ details }) => {
 
                                 <div className="flex justify-between mt-2">
                                     <h2 className="text-3xl font-bold">Premium</h2>
-                                    <span className="text-xl">$29/month</span>
+                                    <span className="text-xl">{details.mem}/month</span>
                                 </div>
 
                                 <ul className="mt-6 flex flex-col gap-2 text-xs">

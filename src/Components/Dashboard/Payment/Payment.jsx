@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-    DollarSign,
-    Mail,
-    CreditCard,
-    CheckCircle,
-    Hash
-} from "lucide-react";
+import { DollarSign, Mail, CreditCard, Hash } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -22,16 +16,11 @@ const Payment = ({ onSubmit, onCancel }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-
+    // Trigger Stripe payment session
     const handlePayment = async () => {
-
-        // ✅ FORM VALIDATION
         if (
             !formData.userEmail ||
             !formData.amount ||
@@ -43,55 +32,47 @@ const Payment = ({ onSubmit, onCancel }) => {
         }
 
         try {
-            const paymentInfo = {
+            const res = await axios.post("http://localhost:3000/create-checkout-session", {
                 amount: Number(formData.amount),
                 clubId: formData.clubId,
                 senderEmail: formData.userEmail,
-                clubName: "Club Membership",
-            };
+            });
 
-            const res = await axios.post(
-                "http://localhost:3000/create-checkout-session",
-                paymentInfo
-            );
-
-            window.location.href = res.data.url;
-        } catch (error) {
-            console.error(error);
+            window.location.href = res.data.url; // redirect to Stripe checkout
+        } catch (err) {
+            console.error(err);
             toast.error("Stripe payment failed");
         }
     };
 
-
+    // Save payment to DB
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const paymentData = {
-            ...formData,
-            createdAt: new Date(),
-        };
+        if (!formData.userEmail || !formData.amount) {
+            toast.error("Please fill all required fields");
+            return;
+        }
 
         try {
-            const res = await axios.post(
-                "http://localhost:3000/payments",
-                paymentData,
-                window.location.href = res.data.url
-            );
+            const paymentData = { ...formData, createdAt: new Date() };
 
+            const res = await axios.post("http://localhost:3000/payments", paymentData);
 
-            toast.success("Payment saved successfully");
+            if (res.data.success) {
+                toast.success("Payment saved successfully ✅");
+                if (onSubmit) onSubmit(paymentData);
 
-            if (onSubmit) onSubmit(paymentData);
-
-            setFormData({
-                userEmail: "",
-                amount: "",
-                type: "membership",
-                clubId: "",
-                eventId: "",
-                transactionId: "",
-                status: "pending",
-            });
+                setFormData({
+                    userEmail: "",
+                    amount: "",
+                    type: "membership",
+                    clubId: "",
+                    eventId: "",
+                    transactionId: "",
+                    status: "pending",
+                });
+            }
         } catch (err) {
             console.error(err);
             toast.error("Payment failed");
@@ -102,8 +83,7 @@ const Payment = ({ onSubmit, onCancel }) => {
         <div className="w-full max-w-xl m-10 mx-auto bg-white rounded-2xl shadow-xl p-8">
             <div className="mb-6 bg-[#FFAA6E] p-5 rounded-xl pb-4">
                 <h2 className="text-2xl font-bold flex items-center gap-2 text-white">
-                    <CreditCard />
-                    Payment
+                    <CreditCard /> Payment
                 </h2>
                 <p className="text-sm text-white mt-1">
                     Record a membership for Club or Event
@@ -112,9 +92,7 @@ const Payment = ({ onSubmit, onCancel }) => {
 
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label className="text-sm font-medium text-gray-600">
-                        User Email
-                    </label>
+                    <label className="text-sm font-medium text-gray-600">User Email</label>
                     <div className="relative mt-1">
                         <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
                         <input
@@ -130,9 +108,7 @@ const Payment = ({ onSubmit, onCancel }) => {
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium text-gray-600">
-                        Amount
-                    </label>
+                    <label className="text-sm font-medium text-gray-600">Amount</label>
                     <div className="relative mt-1">
                         <DollarSign className="absolute left-3 top-3 text-gray-400" size={18} />
                         <input
@@ -149,9 +125,7 @@ const Payment = ({ onSubmit, onCancel }) => {
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium text-gray-600">
-                        Payment Type
-                    </label>
+                    <label className="text-sm font-medium text-gray-600">Payment Type</label>
                     <select
                         name="type"
                         value={formData.type}
@@ -165,9 +139,7 @@ const Payment = ({ onSubmit, onCancel }) => {
 
                 {formData.type === "membership" && (
                     <div>
-                        <label className="text-sm font-medium text-gray-600">
-                            Club Name
-                        </label>
+                        <label className="text-sm font-medium text-gray-600">Club Name</label>
                         <input
                             type="text"
                             name="clubId"
@@ -180,9 +152,7 @@ const Payment = ({ onSubmit, onCancel }) => {
 
                 {formData.type === "event" && (
                     <div>
-                        <label className="text-sm font-medium text-gray-600">
-                            Event ID
-                        </label>
+                        <label className="text-sm font-medium text-gray-600">Event ID</label>
                         <input
                             type="text"
                             name="eventId"
@@ -194,9 +164,7 @@ const Payment = ({ onSubmit, onCancel }) => {
                 )}
 
                 <div>
-                    <label className="text-sm font-medium text-gray-600">
-                        Transaction ID
-                    </label>
+                    <label className="text-sm font-medium text-gray-600">Transaction ID</label>
                     <div className="relative mt-1">
                         <Hash className="absolute left-3 top-3 text-gray-400" size={18} />
                         <input
@@ -211,9 +179,7 @@ const Payment = ({ onSubmit, onCancel }) => {
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium text-gray-600">
-                        Payment Status
-                    </label>
+                    <label className="text-sm font-medium text-gray-600">Payment Status</label>
                     <select
                         name="status"
                         value={formData.status}
@@ -227,15 +193,10 @@ const Payment = ({ onSubmit, onCancel }) => {
                 </div>
 
                 <div className="flex gap-4 pt-4">
-                    <button
-                        type="button"
-                        onClick={onCancel}
-                        className="flex-1 py-2 border rounded-lg"
-                    >
+                    <button type="button" onClick={onCancel} className="flex-1 py-2 border rounded-lg">
                         Cancel
                     </button>
 
-                    {/* ✅ FIXED BUTTON */}
                     <button
                         type="button"
                         onClick={handlePayment}

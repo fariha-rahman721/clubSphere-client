@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../Provider/AuthProvider';
+import Loading from './Loading';
 
 
 const UserProfile = () => {
@@ -9,10 +10,9 @@ const UserProfile = () => {
     const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState(user?.displayName || '');
     const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
+     const [loading, setLoading] = useState(false);
    
      
-
-    
 
     // Handle profile update
     const handleUpdate = (e) => {
@@ -21,6 +21,7 @@ const UserProfile = () => {
             .then(() => {
                 toast.success('Profile updated successfully ✅');
                 setShowForm(false);
+                setLoading(false);
             })
             .catch((error) => {
                 toast.error(error.message);
@@ -43,6 +44,10 @@ const UserProfile = () => {
                 toast.error(error.message);
             });
     };
+
+    if(loading){
+        return <Loading></Loading>
+    }
 
     return (
         <div className="w-11/12 max-w-md mx-auto mt-10 mb-10">

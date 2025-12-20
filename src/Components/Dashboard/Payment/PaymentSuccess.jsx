@@ -1,11 +1,33 @@
-
 import Swal from "sweetalert2";
 import { CheckCircle } from "lucide-react";
+import { useSearchParams, useNavigate } from "react-router";
+import { useEffect } from "react";
+import axios from "axios";
 
 const PaymentSuccess = () => {
-    
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const sessionId = searchParams.get("session_id");
 
-   
+    useEffect(() => {
+        if (!sessionId) return;
+
+        axios.post("http://localhost:3000/confirm-payment", { sessionId })
+            .then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Payment Successful 🎉",
+                    text: "Your membership has been activated!",
+                    confirmButtonText: "Go to Dashboard",
+                }).then(() => {
+                    navigate("/dashboard/myClubs");
+                });
+            })
+            .catch(() => {
+                Swal.fire("Error", "Payment verification failed", "error");
+            });
+
+    }, [sessionId, navigate]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -15,14 +37,8 @@ const PaymentSuccess = () => {
                     Payment Successful
                 </h1>
                 <p className="text-gray-600 mt-2">
-                    Thank you for your payment.
+                    Verifying your payment...
                 </p>
-                <button
-                    onClick={() => window.location.href = "/dashboard"}
-                    className="mt-6 w-full bg-indigo-600 text-white py-2 rounded-lg"
-                >
-                    Go to Dashboard
-                </button>
             </div>
         </div>
     );

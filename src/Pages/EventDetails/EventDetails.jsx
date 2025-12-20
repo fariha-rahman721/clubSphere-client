@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { Calendar, MapPin } from "lucide-react";
 import Loading from "../../Components/Loading";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const EventDetails = () => {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
 
   const [event, setEvent] = useState(null);
@@ -16,13 +16,13 @@ const EventDetails = () => {
   const formatDate = (date) =>
     date
       ? new Date(date).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
       : "N/A";
 
-  // Fetch event details
+  // Fetch event
   useEffect(() => {
     fetch(`http://localhost:3000/events/${id}`)
       .then((res) => res.json())
@@ -33,7 +33,7 @@ const EventDetails = () => {
       .catch(() => setLoading(false));
   }, [id]);
 
-  // Check if user already joined this event
+  // Check joined
   useEffect(() => {
     if (!user?.email) return;
 
@@ -49,10 +49,9 @@ const EventDetails = () => {
           }
         );
         const data = await res.json();
-        const isJoined = data.some((item) => item.eventId === id);
-        setJoined(isJoined);
+        setJoined(data.some((item) => item.eventId === id));
       } catch (err) {
-        console.error("Check joined error:", err);
+        console.error(err);
       }
     };
 
@@ -60,9 +59,9 @@ const EventDetails = () => {
   }, [user, id]);
 
   // Join FREE event
-  const handleEventJoin = async () => {
+  const handleFreeJoin = async () => {
     if (!user?.email) {
-      toast.error("You must be logged in to join.");
+      toast.error("Login required");
       return;
     }
 
@@ -81,21 +80,46 @@ const EventDetails = () => {
         }),
       });
 
-      if (!res.ok) throw new Error("Join failed");
+      if (!res.ok) throw new Error();
 
-      toast.success(`Successfully joined ${event.title}`);
+      toast.success("Successfully joined event");
       setJoined(true);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to join event");
+    } catch {
+      toast.error("Join failed");
+    }
+  };
+
+  // Stripe payment for PAID event
+  const handlePaidEventPayment = async () => {
+    if (!user?.email) {
+      toast.error("Login required");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "http://localhost:3000/payment-checkout-session",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: event.eventFee,
+            eventId: event._id,
+            senderEmail: user.email,
+            clubName: event.title,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      window.location.replace(data.url); // 🔥 Stripe redirect
+    } catch {
+      toast.error("Payment failed");
     }
   };
 
   if (loading) return <Loading />;
-  if (!event)
-    return (
-      <p className="text-center mt-10 text-red-500">Event not found!</p>
-    );
+  if (!event) return <p className="text-center mt-10 text-red-500">Event not found</p>;
 
   const {
     title,
@@ -106,60 +130,49 @@ const EventDetails = () => {
     isPaid,
     eventFee,
     maxAttendees,
-    createdAt,
+    
   } = event;
 
   return (
-    <div className="card w-full md:w-5/12 mx-auto bg-white shadow-lg rounded-xl overflow-hidden my-6">
-      {/* Header */}
-      <div className="bg-[#FFAA6E] p-8">
+    <div className="card w-full md:w-5/12 mx-auto bg-white shadow-lg rounded-xl my-6">
+      <div className="bg-[#FFAA6E]  p-8">
         <h2 className="text-2xl font-bold text-white text-center">{title}</h2>
       </div>
 
-      <div className="relative h-80">
-        <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-      </div>
+      <img src={imageUrl} alt={title} className="h-80 w-full object-cover" />
 
       <div className="p-6 space-y-3">
         <p>{description}</p>
 
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
           <Calendar size={18} />
-          <span>Event Date: {formatDate(eventDate)}</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-500 text-sm">
-          <Calendar className="w-4 h-4" />
-          <span>Created: {formatDate(createdAt)}</span>
+          {formatDate(eventDate)}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
           <MapPin size={18} />
-          <span>Location: {location}</span>
+          {location}
         </div>
 
-        <p className={`font-semibold ${isPaid ? "text-red-600" : "text-green-600"}`}>
+        <p className={isPaid ? "text-red-600" : "text-green-600"}>
           {isPaid ? `Paid Event: $${eventFee}` : "Free Event"}
         </p>
 
-        {maxAttendees && (
-          <p className="text-sm text-gray-500">Max Attendees: {maxAttendees}</p>
-        )}
+        {maxAttendees && <p>Max Attendees: {maxAttendees}</p>}
 
-        {/* ACTION */}
         {isPaid ? (
-          <Link
-            to={`/dashboard/payment?type=event&eventId=${event._id}&amount=${eventFee}`}
-            className="block mt-4 text-center bg-[#FFAA6E] text-white py-2 rounded-lg font-bold"
+          <button
+            onClick={handlePaidEventPayment}
+            className="w-full bg-[#FFAA6E] text-white py-2 rounded-lg font-bold"
           >
             Register & Pay ${eventFee}
-          </Link>
+          </button>
         ) : (
           <button
-            onClick={handleEventJoin}
+            onClick={handleFreeJoin}
             disabled={joined}
-            className={`w-full mt-4 py-2 rounded-lg font-bold ${
-              joined ? "bg-gray-400 cursor-not-allowed text-white" : "bg-orange-500 hover:bg-orange-600 text-white"
-            }`}
+            className={`w-full py-2 rounded-lg font-bold ${joined ? "bg-gray-400" : "bg-orange-500 text-white"
+              }`}
           >
             {joined ? "Joined" : "Join Event"}
           </button>

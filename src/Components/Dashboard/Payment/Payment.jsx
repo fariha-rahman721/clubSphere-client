@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DollarSign, Mail, CreditCard, Hash } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -13,6 +13,21 @@ const Payment = ({ onSubmit, onCancel }) => {
         transactionId: "",
         status: "pending",
     });
+
+    const [clubs, setClubs] = useState([]);
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        // Fetch all clubs
+        axios.get("http://localhost:3000/clubsCollection")
+            .then(res => setClubs(res.data))
+            .catch(() => toast.error("Failed to load clubs"));
+
+        // Fetch all events
+        axios.get("http://localhost:3000/events")
+            .then(res => setEvents(res.data))
+            .catch(() => toast.error("Failed to load events"));
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,13 +47,14 @@ const Payment = ({ onSubmit, onCancel }) => {
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/create-checkout-session", {
+            const res = await axios.post("http://localhost:3000/payment-checkout-session", {
                 amount: Number(formData.amount),
                 clubId: formData.clubId,
                 senderEmail: formData.userEmail,
+                clubName: formData.clubName,
             });
 
-            window.location.href = res.data.url; // redirect to Stripe checkout
+            window.location.href = res.data.url;
         } catch (err) {
             console.error(err);
             toast.error("Stripe payment failed");
@@ -65,6 +81,7 @@ const Payment = ({ onSubmit, onCancel }) => {
 
                 setFormData({
                     userEmail: "",
+                    clubName: "",
                     amount: "",
                     type: "membership",
                     clubId: "",
@@ -137,29 +154,43 @@ const Payment = ({ onSubmit, onCancel }) => {
                     </select>
                 </div>
 
+                {/* Membership Dropdown */}
                 {formData.type === "membership" && (
                     <div>
                         <label className="text-sm font-medium text-gray-600">Club Name</label>
-                        <input
-                            type="text"
+                        <select
                             name="clubId"
                             value={formData.clubId}
                             onChange={handleChange}
                             className="w-full mt-1 py-2 px-3 border rounded-lg"
-                        />
+                        >
+                            <option value="">Select a club</option>
+                            {clubs.map(club => (
+                                <option key={club._id} value={club._id}>
+                                    {club.clubName || club.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 )}
 
+                {/* Event Dropdown */}
                 {formData.type === "event" && (
                     <div>
-                        <label className="text-sm font-medium text-gray-600">Event ID</label>
-                        <input
-                            type="text"
+                        <label className="text-sm font-medium text-gray-600">Event Name</label>
+                        <select
                             name="eventId"
                             value={formData.eventId}
                             onChange={handleChange}
                             className="w-full mt-1 py-2 px-3 border rounded-lg"
-                        />
+                        >
+                            <option value="">Select an event</option>
+                            {events.map(event => (
+                                <option key={event._id} value={event._id}>
+                                    {event.eventName || event.title}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 )}
 
@@ -200,7 +231,7 @@ const Payment = ({ onSubmit, onCancel }) => {
                     <button
                         type="button"
                         onClick={handlePayment}
-                        className="flex-1 py-2 bg-indigo-600 text-white rounded-lg font-semibold"
+                        className="flex-1 py-2 bg-orange-600 hover:bg-orange-400 text-white rounded-lg font-semibold"
                     >
                         Pay Now
                     </button>

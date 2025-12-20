@@ -29,7 +29,7 @@ const SingleClub = ({ details }) => {
         });
     };
 
-    // ✅ CHECK IF USER ALREADY JOINED (AUTHORIZED)
+
     useEffect(() => {
         if (!user?.email) return;
 
@@ -85,6 +85,29 @@ const SingleClub = ({ details }) => {
     };
 
 
+    useEffect(() => {
+        if (!user?.email) return;
+
+        fetch(`http://localhost:3000/myClubs?email=${user.email}`, {
+            headers: {
+                authorization: `Bearer ${user.accessToken}`,
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+               
+                const joinedClub = data?.find(club => club._id === details._id);
+                if (joinedClub) {
+                    setJoined(true);
+                } else {
+                    setJoined(false);
+                }
+            })
+            .catch(() => {
+                setJoined(false);
+            });
+    }, [user, refetch, details._id]);
+
 
     useEffect(() => {
         fetch(`http://localhost:3000/wings`)
@@ -124,7 +147,7 @@ const SingleClub = ({ details }) => {
 
             <div className="w-10/12 mx-auto mb-8">
                 <img
-                    className="w-full h-[350px] object-cover rounded-2xl shadow-xl"
+                    className="w-full h-[800px] object-cover rounded-2xl shadow-xl"
                     src={imgSrc}
                     alt={details.clubName}
                 />
@@ -197,7 +220,7 @@ const SingleClub = ({ details }) => {
 
                             <div className="flex justify-between mt-2">
                                 <h2 className="text-3xl font-bold">Premium</h2>
-                                <span>{details.mem}/month</span>
+                                <span>{details.membershipFee}/month</span>
                             </div>
 
                             <ul className="mt-4 text-xs space-y-2">

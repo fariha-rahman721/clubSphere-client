@@ -11,7 +11,7 @@ const CategorySwiper = ({ data }) => {
 
     return (
         <div className="my-8 w-11/12 mx-auto ">
-            <h2 className="text-3xl font-bold mb-6 text-center mt-8 ">Explore by <span className='text-[#FFAA6E]'>Categories</span></h2>
+            <h2 className="text-3xl font-bold mb-6 text-center mt-10 ">Explore by <span className='text-[#FFAA6E]'>Categories</span></h2>
 
             <Swiper
                 
@@ -30,7 +30,7 @@ const CategorySwiper = ({ data }) => {
             >
                 {allCategories.map((cat, index) => (
                     <SwiperSlide key={index}>
-                        <div className="px-4 py-2 p-6 btn btn-dash btn-warning rounded-xl text-center font-medium shadow-sm">
+                        <div className="px-4 m-10 py-2 p-6 btn btn-dash btn-warning rounded-xl text-center font-medium shadow-sm">
                             {cat}
                         </div>
                     </SwiperSlide>

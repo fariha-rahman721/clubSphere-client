@@ -49,7 +49,7 @@ const ClubCard = ({ club }) => {
                         to={`/clubDetails/${club._id || club.clubName}`}
                         className="btn bg-orange-400 w-full text-white rounded-xl"
                     >
-                        Join Now (Free)
+                       View more
                     </Link>
                 </div>
             </div>

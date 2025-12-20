@@ -23,6 +23,7 @@ import CreateEvent from "../Components/Dashboard/CreateEvent/CreateEvent";
 import Payment from "../Components/Dashboard/Payment/Payment";
 import PaymentSuccess from "../Components/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../Components/Dashboard/Payment/PaymentCancelled";
+import PaymentHistory from "../Components/Dashboard/PaymentHistory/PaymentHistory";
 
 
 export const router = createBrowserRouter([
@@ -117,6 +118,11 @@ export const router = createBrowserRouter([
                         path: 'payment',
                         element: <Payment></Payment>
                     },
+                    {
+                        path: 'paymentHistory',
+                        element: <PaymentHistory></PaymentHistory>
+                    }
+                    ,
                     {
                         path: 'payment-success',
                         element: <PaymentSuccess></PaymentSuccess>

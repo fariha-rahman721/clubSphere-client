@@ -17,16 +17,16 @@ Axios & React Query for efficient data fetching
 Error handling and success notifications
 
 ### List of Important NPM Packages Used
-express – Backend server framework
-mongodb – Database connectivity
-jsonwebtoken – JWT authentication
-cors – Enable cross-origin requests
-bcryptjs – Password hashing
-axios – HTTP requests from frontend
-react-query (@tanstack/react-query) – Server state management
-react-router – Routing in React
-react-hot-toast – Notifications for actions
-dotenv – Environment variable management
-swiper – Modern slider/carousel component for React
+express – Backend server framework,
+mongodb – Database connectivity,
+jsonwebtoken – JWT authentication,
+cors – Enable cross-origin requests,
+bcryptjs – Password hashing,
+axios – HTTP requests from frontend,
+react-query (@tanstack/react-query) – Server state management,
+react-router – Routing in React,
+react-hot-toast – Notifications for actions,
+dotenv – Environment variable management,
+swiper – Modern slider/carousel component for React,
 react-icons – Popular icons for React components
 

@@ -3,56 +3,56 @@ import { updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../Provider/AuthProvider';
 import Loading from './Loading';
-
+import UseRole from './Hooks/Userole';
+import { auth } from '../firebase/firebase.config';
 
 const UserProfile = () => {
     const { user } = useContext(AuthContext);
     const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState(user?.displayName || '');
     const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
-     const [loading, setLoading] = useState(false);
-   
-     
+    const [loading, setLoading] = useState(false);
+    const [role, isRoleLoading] = UseRole();
 
-    // Handle profile update
     const handleUpdate = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         updateProfile(user, { displayName: name, photoURL })
             .then(() => {
                 toast.success('Profile updated successfully ✅');
                 setShowForm(false);
-                setLoading(false);
             })
             .catch((error) => {
                 toast.error(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
-    // Handle password reset
     const handleChangePassword = () => {
         if (!user?.email) {
             toast.error('No email found for this user!');
             return;
         }
 
-        sendPasswordResetEmail(user.auth, user.email)
+        sendPasswordResetEmail(auth, user.email)
             .then(() => {
                 toast.success('Password reset email sent! 📧');
-               
             })
             .catch((error) => {
                 toast.error(error.message);
             });
     };
 
-    if(loading){
-        return <Loading></Loading>
+    if (loading) {
+        return <Loading />;
     }
 
     return (
         <div className="w-11/12 max-w-md mx-auto mt-10 mb-10">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                {/* Background Image */}
                 <div className="relative h-32">
                     <img
                         src="https://i.imgur.com/TflM6tr.jpeg"
@@ -61,7 +61,6 @@ const UserProfile = () => {
                     />
                 </div>
 
-                {/* Profile Image overlapping */}
                 <div className="relative -mt-16 flex justify-center">
                     <img
                         src={user?.photoURL || "https://i.ibb.co/2FsfXqM/default-avatar.png"}
@@ -69,20 +68,27 @@ const UserProfile = () => {
                         className="w-28 h-28 rounded-full border-4 border-white object-cover shadow-md"
                     />
                 </div>
+                <div className="m-2 rounded-2xl">
+                    <p className='p-2 text-center w-1/2 mx-auto font-bold bg-orange-200'>
+                            {isRoleLoading ? 'Loading...' : role || 'User'}
+                        </p>
+                </div>
 
-                {/* Card Body */}
                 <div className="px-6 pb-6">
-                    {/* User Info Flex */}
                     <div className="flex flex-col items-center mb-4">
-                        <h2 className="text-2xl font-bold text-slate-900">User Name : {user?.displayName || "Anonymous User"}</h2>
-                        <p className="text-gray-600">User Email : {user?.email || "No email available"}</p>
+                        <h2 className="text-2xl font-bold text-slate-900">
+                            User Name : {user?.displayName || "Anonymous User"}
+                        </h2>
+                        <p className="text-gray-600">
+                            User Email : {user?.email || "No email available"}
+                        </p>
+                        
                     </div>
 
-                    
                     <div className="flex flex-col gap-3 mb-4">
                         <button
                             onClick={() => setShowForm(!showForm)}
-                            className="btn btn-primary rounded-xl w-full"
+                            className="btn bg-[#FFAA6E] rounded-xl w-full"
                         >
                             {showForm ? "Cancel" : "Update Profile"}
                         </button>
@@ -94,7 +100,6 @@ const UserProfile = () => {
                         </button>
                     </div>
 
-                    {/* Update Form */}
                     {showForm && (
                         <form onSubmit={handleUpdate} className="space-y-3">
                             <input

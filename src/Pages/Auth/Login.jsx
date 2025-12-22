@@ -1,41 +1,54 @@
-import React, { use, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../../Provider/AuthProvider';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.config';
 import toast, { Toaster } from 'react-hot-toast';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import useAxiosSecure from '../../Components/Hooks/UseAxiosSecure';
 
-
-const googleProvider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
-
-
-    const [error, setError] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
-    const { signIn } = use(AuthContext);
+    const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const { signIn, setUser } = React.useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const emailRef = useRef()
-    const handleLogin = (e) => {
-        e.preventDefault()
+    const emailRef = useRef();
+    const axiosSecure = useAxiosSecure();
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
         const form = e.target;
         const email = form.email.value;
-        const password = form.password.value
-        // console.log({ email, password })
-        signIn(email, password).then(result => {
+        const password = form.password.value;
+
+        try {
+            const result = await signIn(email, password);
             const user = result.user;
+            setUser(user);
             toast.success(`Welcome ${user.displayName || "User"}!`);
 
-            // console.log(user)
-            navigate(`${location.state ? location.state : '/'}`)
-        })
-            .catch(error => {
-                const errorMessage = error.message;
-                setError(errorMessage)
-            })
-    }
+            // Save/update user in MongoDB
+            const token = await user.getIdToken();
+            await axiosSecure.post(
+                '/user',
+                {
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            navigate(location.state || '/');
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     const handleForgetPassword = () => {
         const email = emailRef.current.value;
@@ -43,32 +56,41 @@ const Login = () => {
             toast.error('Please enter your email first!');
             return;
         }
-
-
         navigate('/auth/forgetPassword', { state: { email } });
     };
 
+    const handleGoogleSignIn = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+            setUser(user);
+            toast.success(`Welcome ${user.displayName || user.email}!`);
 
+            // Save/update user in MongoDB
+            const token = await user.getIdToken();
+            await axiosSecure.post(
+                '/user',
+                {
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
 
-    const handleGoogleSignIn = () => {
-        signInWithPopup(auth, googleProvider)
-            .then(result => {
-                const user = result.user;
-                toast.success(`Welcome ${user.displayName || user.email}!`);
-                navigate('/');
-            })
-            .catch(error => {
-                toast.error(error.message);
-            })
-    }
+            navigate('/');
+        } catch (err) {
+            toast.error(err.message);
+        }
+    };
 
     return (
         <div className="w-11/12 max-w-4xl mx-auto">
-            
-
             <div className="flex justify-center items-center min-h-screen px-2 sm:px-4">
                 <div className="card bg-base-100 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-lg shadow-2xl py-5 px-4 sm:px-6 md:px-8">
-                    <h1 className="text-2xl  sm:text-3xl font-extrabold text-center text-orange-500 mb-4">
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-orange-500 mb-4">
                         Login To ClubSphere
                     </h1>
 
@@ -109,14 +131,20 @@ const Login = () => {
                             </div>
 
                             <div className="text-right">
-                                <button onClick={handleForgetPassword} className="link link-hover text-xs sm:text-sm">
+                                <button
+                                    onClick={handleForgetPassword}
+                                    className="link link-hover text-xs sm:text-sm"
+                                >
                                     Forgot password?
                                 </button>
                             </div>
 
                             {error && <p className="text-red-400 text-xs sm:text-sm">{error}</p>}
 
-                            <button type="submit" className="btn bg-[#FFAA6E] hover:bg-orange-400 text-white mt-2 sm:mt-4 w-full sm:w-auto">
+                            <button
+                                type="submit"
+                                className="btn bg-[#FFAA6E] hover:bg-orange-400 text-white mt-2 sm:mt-4 w-full sm:w-auto"
+                            >
                                 Login
                             </button>
                         </fieldset>
@@ -136,10 +164,22 @@ const Login = () => {
                         >
                             <g>
                                 <path d="m0 0H512V512H0" fill="#fff"></path>
-                                <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
-                                <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
-                                <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
-                                <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
+                                <path
+                                    fill="#34a853"
+                                    d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+                                ></path>
+                                <path
+                                    fill="#4285f4"
+                                    d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+                                ></path>
+                                <path
+                                    fill="#fbbc02"
+                                    d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+                                ></path>
+                                <path
+                                    fill="#ea4335"
+                                    d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+                                ></path>
                             </g>
                         </svg>
                         Login with Google
@@ -147,16 +187,14 @@ const Login = () => {
 
                     <p className="font-semibold text-center text-[12px] sm:text-sm mt-4">
                         Don't have an account?{' '}
-                        <Link className="text-blue-700 font-semibold" to="/auth/register">
+                        <Link className="text-[#FFAA6E] font-semibold" to="/auth/register">
                             Register
                         </Link>
                     </p>
                 </div>
             </div>
-
-            
+            <Toaster />
         </div>
-
     );
 };
 

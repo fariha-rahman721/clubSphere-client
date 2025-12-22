@@ -5,8 +5,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.config';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
-
-
+import useAxiosSecure from '../../Components/Hooks/UseAxiosSecure';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -15,6 +14,7 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
 
     const {
         register,
@@ -22,12 +22,11 @@ const Register = () => {
         formState: { errors },
     } = useForm();
 
+    // ================= EMAIL REGISTER =================
     const onSubmit = (data) => {
         const { name, photo, email, password } = data;
 
-        
-
-        // Password validation (unchanged logic)
+        // Password validation (UNCHANGED)
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
@@ -50,11 +49,23 @@ const Register = () => {
         createUser(email, password)
             .then((result) => {
                 const user = result.user;
+
                 updateUser({ displayName: name, photoURL: photo })
-                    .then(() => {
+                    .then(async () => {
+
+                       
+                        const userInfo = {
+                            email,
+                            displayName: name,
+                            photoURL: photo,
+                            role: 'customer',
+                        };
+
+                        await axiosSecure.post('/user', userInfo);
+
                         setUser({ ...user, displayName: name, photoURL: photo });
                         toast.success(`Welcome ${name}!`);
-                        navigate('/auth/login');
+                        navigate('/dashboard');
                         setLoading(false);
                     })
                     .catch((err) => {
@@ -68,10 +79,21 @@ const Register = () => {
             });
     };
 
+  
     const handleGoogleRegister = () => {
         signInWithPopup(auth, googleProvider)
-            .then((result) => {
+            .then(async (result) => {
                 const user = result.user;
+
+                const userInfo = {
+                    email: user.email,
+                    displayName: user.displayName || 'Unknown',
+                    photoURL: user.photoURL || '',
+                    role: 'customer',
+                };
+
+                await axiosSecure.post('/user', userInfo);
+
                 setUser(user);
                 toast.success(`Welcome ${user.displayName || 'User'}!`);
                 navigate('/');
@@ -86,70 +108,51 @@ const Register = () => {
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-orange-500 mb-4">
                         Join ClubSphere
                     </h1>
- 
+
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="card-body p-0 flex flex-col gap-4"
                     >
-                        <label className="label text-sm sm:text-base">Name</label>
+                        <label className="label">Name</label>
                         <input
-                            {...register('name', { required: true,
-                                maxLength: {
-                                    value:20,
-                                    message: "Name cannot be too long"
-                                }
-                             })}
+                            {...register('name', { required: true, maxLength: 20 })}
                             type="text"
                             className="input w-full"
                             placeholder="Your name"
-                            required
                         />
-                        {errors.name && <p className='text-red-500 text-xs'>{errors.name.message}</p>}
+                        {errors.name && <p className="text-red-500 text-xs">Name is required</p>}
 
-                        <label className="label text-sm sm:text-base">Photo URL</label>
+                        <label className="label">Photo URL</label>
                         <input
-                            {...register('photo', { required: true ,
-                                message: "Photo is required"
-                            })}
+                            {...register('photo', { required: true })}
                             type="url"
                             className="input w-full"
                             placeholder="Photo URL"
-                            required
                         />
-                         {errors.photo && <p className='text-red-500 text-xs'>{errors.name.message}</p>}
 
-                        <label className="label text-sm sm:text-base">Email</label>
+                        <label className="label">Email</label>
                         <input
-                            {...register('email', { required: true ,
-                                 message: "Email is required"
-                            })}
+                            {...register('email', { required: true })}
                             type="email"
                             className="input w-full"
                             placeholder="Email"
-                            required
                         />
-                         {errors.email && <p className='text-red-500 text-xs'>{errors.name.message}</p>}
 
-                        <label className="label text-sm sm:text-base">Password</label>
+                        <label className="label">Password</label>
                         <input
-                            {...register('password', { required: true ,
-                                 message: "Password is required"
-                            })}
+                            {...register('password', { required: true })}
                             type="password"
-                            className="input w-full"
+                            className="input  w-full"
                             placeholder="Password"
-                            required
                         />
 
                         {passwordError && (
-                            <p className="text-xs sm:text-sm text-red-500">
-                                {passwordError}
-                            </p>
+                            <p className="text-xs text-red-500">{passwordError}</p>
                         )}
 
                         <button
                             type="submit"
-                            className="btn bg-[#FFAA6E] hover:bg-orange-500 text-white w-full sm:w-auto mt-2"
+                            className="btn bg-[#FFAA6E] hover:bg-orange-500 text-white"
                             disabled={loading}
                         >
                             {loading ? 'Registering...' : 'Register'}
@@ -158,8 +161,10 @@ const Register = () => {
                         <button
                             type="button"
                             onClick={handleGoogleRegister}
-                            className="btn btn-outline w-full sm:w-auto mt-2 flex items-center justify-center gap-2"
-                        ><svg
+                            className="btn btn-outline flex items-center justify-center gap-2"
+                            
+                        >
+                            <svg
                             aria-label="Google logo"
                             width="16"
                             height="16"
@@ -177,7 +182,7 @@ const Register = () => {
                             Register with Google
                         </button>
 
-                        <p className="font-semibold text-center text-[12px] sm:text-sm mt-3">
+                        <p className="text-center text-sm">
                             Already have an account?{' '}
                             <Link className="text-blue-700 font-semibold" to="/auth/login">
                                 Login

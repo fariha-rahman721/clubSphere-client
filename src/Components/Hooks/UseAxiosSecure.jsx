@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router';
 import UseAuth from './UseAuth';
+
 const axiosSecure = axios.create({
     baseURL: 'http://localhost:3000'
 })
@@ -28,7 +29,7 @@ const useAxiosSecure = () => {
             if (statusCode === 401 || statusCode === 403) {
                 logOut()
                     .then(() => {
-                        navigate('/login')
+                        navigate('/auth/login')
                     })
             }
 

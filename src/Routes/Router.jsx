@@ -24,6 +24,9 @@ import Payment from "../Components/Dashboard/Payment/Payment";
 import PaymentSuccess from "../Components/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../Components/Dashboard/Payment/PaymentCancelled";
 import PaymentHistory from "../Components/Dashboard/PaymentHistory/PaymentHistory";
+import AdminStatistics from "../Components/Dashboard/Statistics/AdminStatistics";
+import ManageUsers from "../Components/Dashboard/Admin/ManageUsers";
+import BecomeMember from "../Components/Dashboard/BecomeMember/BecomeMember";
 
 
 export const router = createBrowserRouter([
@@ -35,17 +38,17 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home></Home>,
-                loader:async () => {
+                loader: async () => {
                     const res = await fetch('http://localhost:3000/clubsCollection');
                     return res.json()
                 }
-                
+
             },
-            
+
             {
                 path: '/allClubs',
                 element: <AllClubs></AllClubs>,
-                loader:async () => {
+                loader: async () => {
                     const res = await fetch('http://localhost:3000/clubsCollection');
                     return res.json()
                 }
@@ -53,7 +56,7 @@ export const router = createBrowserRouter([
             {
                 path: '/events',
                 element: <Events></Events>,
-                loader:async () => {
+                loader: async () => {
                     const res = await fetch('http://localhost:3000/events');
                     return res.json()
                 }
@@ -61,7 +64,7 @@ export const router = createBrowserRouter([
             {
                 path: '/clubDetails/:id',
                 element: <ClubDetails></ClubDetails>,
-                loader:async () => {
+                loader: async () => {
                     const res = await fetch(`http://localhost:3000/clubsCollection`);
                     return res.json()
                 }
@@ -74,14 +77,15 @@ export const router = createBrowserRouter([
                 path: "/userProfile",
                 element: <UserProfile></UserProfile>
             },
-        
-            
+
+
             {
                 path: '/eventDetails/:id',
                 element: <EventDetails></EventDetails>
             },
-            
-            
+
+
+
             {
                 path: '/auth/login',
                 element: <Login></Login>
@@ -97,45 +101,58 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard",
                 element: <PrivateRoute>
-                <DashboardLayout></DashboardLayout>
+                    <DashboardLayout></DashboardLayout>
                 </PrivateRoute>,
                 children:
-                [
-                    {
-                        path: "myClubs",
-                        element: <MyClubs></MyClubs>
-                    },
-                    
-                    {
-                        path: 'myEvents',
-                        element: <MyEvents></MyEvents>
-                    },
-                    {
-                        path: 'createEvent',
-                        element: <CreateEvent></CreateEvent>
-                    },
-                    {
-                        path: 'payment',
-                        element: <Payment></Payment>
-                    },
-                    {
-                        path: 'paymentHistory',
-                        element: <PaymentHistory></PaymentHistory>
-                    }
-                    ,
-                    {
-                        path: 'payment-success',
-                        element: <PaymentSuccess></PaymentSuccess>
-                    },
-                    {
-                        path: 'payment-cancel',
-                        element: <PaymentCancelled></PaymentCancelled>
-                    },
-                    
-                ]
+                    [
+                        {
+                            path: "myClubs",
+                            element: <MyClubs></MyClubs>
+                        },
+
+                        {
+                            path: 'myEvents',
+                            element: <MyEvents></MyEvents>
+                        },
+                        {
+                            path: 'createEvent',
+                            element: <CreateEvent></CreateEvent>
+                        },
+                        {
+                            path: 'payment',
+                            element: <Payment></Payment>
+                        },
+                        {
+                            path: 'paymentHistory',
+                            element: <PaymentHistory></PaymentHistory>
+                        }
+                        ,
+                        {
+                            path: 'payment-success',
+                            element: <PaymentSuccess></PaymentSuccess>
+                        },
+                        {
+                            path: 'payment-cancel',
+                            element: <PaymentCancelled></PaymentCancelled>
+                        },
+                        {
+                            path: 'adminStatistics',
+                            element: <AdminStatistics></AdminStatistics>
+                        },
+                        {
+                            path: 'manageUsers',
+                            element: <ManageUsers></ManageUsers>
+                        },
+                        {
+                            path: 'becomeMember',
+                            element: <BecomeMember></BecomeMember>
+                        },
+
+                    ]
             }
-        ]}
+        ]
+    }
 
 
-    
+
 ])

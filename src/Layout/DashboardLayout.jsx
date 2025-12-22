@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Link, Outlet } from 'react-router';
 import { SiSamsclub } from "react-icons/si";
-import { MdCreateNewFolder, MdEventAvailable } from "react-icons/md";
+import { MdCreateNewFolder, MdEventAvailable, MdRememberMe } from "react-icons/md";
 import { FaRegCreditCard } from "react-icons/fa";
 import UseRole from '../Components/Hooks/Userole';
 import Loading from '../Components/Loading';
@@ -58,19 +58,20 @@ const DashboardLayout = () => {
                             !isRoleLoading && isAdmin && (
                                 <>
                                     <li>
-                                        <NavLink to="/dashboard/adminStatistics">
-                                            Statistics
+                                        <NavLink to="/dashboard/adminStatistics" className="text-orange-600 font-semibold flex gap-2">
+                                <SiSamsclub className="size-4" /> Statistics
                                         </NavLink>
                                     </li>
 
                                     <li>
-                                        <NavLink to="/dashboard/manageUsers">
+                                        <NavLink to="/dashboard/manageUsers" className="text-orange-600 font-semibold flex gap-2">
+                                <SiSamsclub className="size-4" />
                                             Manage Users
                                         </NavLink>
                                     </li>
 
                                     <li>
-                                        <NavLink to="/dashboard/paymentHistory">
+                                        <NavLink to="/dashboard/paymentHistory" className="text-orange-600 font-semibold flex gap-2">
                                             <FaRegCreditCard />
                                             Payment History
                                         </NavLink>
@@ -83,7 +84,7 @@ const DashboardLayout = () => {
                         {
                             !isRoleLoading && isManager && (
                                 <li>
-                                    <NavLink to="/dashboard/createEvent">
+                                    <NavLink to="/dashboard/createEvent" className="text-orange-600 font-semibold flex gap-2">
                                         <MdCreateNewFolder />
                                         Create Events
                                     </NavLink>
@@ -96,20 +97,20 @@ const DashboardLayout = () => {
                             !isRoleLoading && isMember && (
                                 <>
                                     <li>
-                                        <NavLink to="/dashboard/myClubs">
-                                            My Clubs
+                                        <NavLink to="/dashboard/myClubs" className="text-orange-600 font-semibold flex gap-2">
+                                <SiSamsclub className="size-4" />  My Clubs
                                         </NavLink>
                                     </li>
 
                                     <li>
-                                        <NavLink to="/dashboard/myEvents">
+                                        <NavLink to="/dashboard/myEvents" className="text-orange-600 font-semibold flex gap-2">
                                             <MdEventAvailable />
                                             My Events
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/becomeMember">
-                                            <MdEventAvailable />
+                                        <NavLink to="/dashboard/becomeMember" className="text-orange-600 font-semibold flex gap-2">
+                                            <MdRememberMe />
                                             Become A Member
                                         </NavLink>
                                     </li>

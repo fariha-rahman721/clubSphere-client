@@ -18,7 +18,7 @@ const MyEvents = () => {
                 const token = await user.getIdToken();
 
                 const res = await fetch(
-                    `http://localhost:3000/myEvents?email=${user.email}`,
+                    `https://clubsphere-theta.vercel.app/myEvents?email=${user.email}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ const MyEvents = () => {
         try {
             const token = await user.getIdToken();
 
-            const res = await fetch("http://localhost:3000/leaveEvent", {
+            const res = await fetch("https://clubsphere-theta.vercel.app/leaveEvent", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

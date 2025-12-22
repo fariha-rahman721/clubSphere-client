@@ -12,7 +12,7 @@ const PaymentSuccess = () => {
     useEffect(() => {
         if (!sessionId) return;
 
-        axios.post("http://localhost:3000/confirm-payment", { sessionId })
+        axios.post("https://clubsphere-theta.vercel.app/confirm-payment", { sessionId })
             .then(() => {
                 Swal.fire({
                     icon: "success",

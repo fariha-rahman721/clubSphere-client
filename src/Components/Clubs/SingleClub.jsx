@@ -33,7 +33,7 @@ const SingleClub = ({ details }) => {
     useEffect(() => {
         if (!user?.email) return;
 
-        fetch(`http://localhost:3000/myClubs?email=${user.email}`, {
+        fetch(`https://clubsphere-theta.vercel.app/myClubs?email=${user.email}`, {
             headers: {
                 authorization: `Bearer ${user.accessToken}`,
             },
@@ -64,7 +64,7 @@ const SingleClub = ({ details }) => {
         };
 
         try {
-            const res = await fetch("http://localhost:3000/joinClubs", {
+            const res = await fetch("https://clubsphere-theta.vercel.app/joinClubs", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,14 +88,14 @@ const SingleClub = ({ details }) => {
     useEffect(() => {
         if (!user?.email) return;
 
-        fetch(`http://localhost:3000/myClubs?email=${user.email}`, {
+        fetch(`https://clubsphere-theta.vercel.app/myClubs?email=${user.email}`, {
             headers: {
                 authorization: `Bearer ${user.accessToken}`,
             },
         })
             .then(res => res.json())
             .then(data => {
-               
+
                 const joinedClub = data?.find(club => club._id === details._id);
                 if (joinedClub) {
                     setJoined(true);
@@ -110,7 +110,7 @@ const SingleClub = ({ details }) => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:3000/wings`)
+        fetch(`https://clubsphere-theta.vercel.app/wings`)
             .then(res => res.json())
             .then(data => {
                 const clubWings = data.filter(w => w.clubId === details._id);

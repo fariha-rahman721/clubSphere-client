@@ -24,7 +24,7 @@ const EventDetails = () => {
 
   // Fetch event
   useEffect(() => {
-    fetch(`http://localhost:3000/events/${id}`)
+    fetch(`https://clubsphere-theta.vercel.app/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setEvent(data);
@@ -41,7 +41,7 @@ const EventDetails = () => {
       try {
         const token = await user.getIdToken();
         const res = await fetch(
-          `http://localhost:3000/joinEvents?email=${user.email}`,
+          `https://clubsphere-theta.vercel.app/joinEvents?email=${user.email}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const EventDetails = () => {
 
     try {
       const token = await user.getIdToken();
-      const res = await fetch("http://localhost:3000/joinEvents", {
+      const res = await fetch("https://clubsphere-theta.vercel.app/joinEvents", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const EventDetails = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/payment-checkout-session",
+        "https://clubsphere-theta.vercel.app/payment-checkout-session",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -130,7 +130,7 @@ const EventDetails = () => {
     isPaid,
     eventFee,
     maxAttendees,
-    
+
   } = event;
 
   return (

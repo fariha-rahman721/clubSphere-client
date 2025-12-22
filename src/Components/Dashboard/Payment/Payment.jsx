@@ -19,12 +19,12 @@ const Payment = ({ onSubmit, onCancel }) => {
 
     useEffect(() => {
         // Fetch all clubs
-        axios.get("http://localhost:3000/clubsCollection")
+        axios.get("https://clubsphere-theta.vercel.app/clubsCollection")
             .then(res => setClubs(res.data))
             .catch(() => toast.error("Failed to load clubs"));
 
         // Fetch all events
-        axios.get("http://localhost:3000/events")
+        axios.get("https://clubsphere-theta.vercel.app/events")
             .then(res => setEvents(res.data))
             .catch(() => toast.error("Failed to load events"));
     }, []);
@@ -47,7 +47,7 @@ const Payment = ({ onSubmit, onCancel }) => {
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/payment-checkout-session", {
+            const res = await axios.post("https://clubsphere-theta.vercel.app/payment-checkout-session", {
                 amount: Number(formData.amount),
                 clubId: formData.clubId,
                 senderEmail: formData.userEmail,
@@ -73,7 +73,7 @@ const Payment = ({ onSubmit, onCancel }) => {
         try {
             const paymentData = { ...formData, createdAt: new Date() };
 
-            const res = await axios.post("http://localhost:3000/payments", paymentData);
+            const res = await axios.post("https://clubsphere-theta.vercel.app/payments", paymentData);
 
             if (res.data.success) {
                 toast.success("Payment saved successfully ✅");

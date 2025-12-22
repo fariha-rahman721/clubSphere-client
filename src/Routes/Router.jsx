@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
                 path: "/",
                 element: <Home></Home>,
                 loader: async () => {
-                    const res = await fetch('http://localhost:3000/clubsCollection');
+                    const res = await fetch('https://clubsphere-theta.vercel.app/clubsCollection');
                     return res.json()
                 }
 
@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
                 path: '/allClubs',
                 element: <AllClubs></AllClubs>,
                 loader: async () => {
-                    const res = await fetch('http://localhost:3000/clubsCollection');
+                    const res = await fetch('https://clubsphere-theta.vercel.app/clubsCollection');
                     return res.json()
                 }
             },
@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
                 path: '/events',
                 element: <Events></Events>,
                 loader: async () => {
-                    const res = await fetch('http://localhost:3000/events');
+                    const res = await fetch('https://clubsphere-theta.vercel.app/events');
                     return res.json()
                 }
             },
@@ -65,7 +65,7 @@ export const router = createBrowserRouter([
                 path: '/clubDetails/:id',
                 element: <ClubDetails></ClubDetails>,
                 loader: async () => {
-                    const res = await fetch(`http://localhost:3000/clubsCollection`);
+                    const res = await fetch(`https://clubsphere-theta.vercel.app/clubsCollection`);
                     return res.json()
                 }
             },

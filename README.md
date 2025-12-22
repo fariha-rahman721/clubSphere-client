@@ -1,16 +1,32 @@
-# React + Vite
+## Project Name
+#### ClubSphere
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Purpose
+This project is designed to manage users and membership requests for a club or community platform. It allows users to request membership, admins to manage users and their roles, and provides secure authentication using JWT.
 
-Currently, two official plugins are available:
+### Live URL
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+## Key Features
+User authentication and role-based access control
+Secure JWT-based protected routes
+Membership request system with duplicate check
+Admin dashboard to manage users and roles
+Responsive table view of users
+Axios & React Query for efficient data fetching
+Error handling and success notifications
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### List of Important NPM Packages Used
+express – Backend server framework
+mongodb – Database connectivity
+jsonwebtoken – JWT authentication
+cors – Enable cross-origin requests
+bcryptjs – Password hashing
+axios – HTTP requests from frontend
+react-query (@tanstack/react-query) – Server state management
+react-router – Routing in React
+react-hot-toast – Notifications for actions
+dotenv – Environment variable management
+swiper – Modern slider/carousel component for React
+react-icons – Popular icons for React components
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

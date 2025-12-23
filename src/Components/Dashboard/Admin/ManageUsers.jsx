@@ -4,7 +4,7 @@ import useAxiosSecure from '../../Hooks/UseAxiosSecure'
 import Loading from '../../Loading'
 
 const ManageUsers = () => {
-  const { loading } = UseAuth()   // ✅ user removed
+  const { loading } = UseAuth()   
   const axiosSecure = useAxiosSecure()
 
   const {
@@ -48,12 +48,15 @@ const ManageUsers = () => {
                       {u.email}
                     </td>
 
-                    <td className="px-5 py-4 border-b bg-white text-sm capitalize">
+                    <td className="px-5 py-4 flex gap-3 border-b bg-white text-sm capitalize">
                       {u.role || 'member'}
+                      <button className="btn btn-xs bg-orange-500 text-white hover:bg-orange-800">
+                        Update Role
+                      </button>
                     </td>
 
                     <td className="px-5 py-4 border-b bg-white text-sm space-x-2">
-                      <button className="btn btn-xs bg-orange-500 text-white">
+                      <button className="btn btn-xs bg-orange-500 text-white hover:bg-orange-800">
                         Make Manager
                       </button>
                       <button className="btn btn-xs btn-outline">

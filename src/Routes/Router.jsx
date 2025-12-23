@@ -27,6 +27,7 @@ import PaymentHistory from "../Components/Dashboard/PaymentHistory/PaymentHistor
 import AdminStatistics from "../Components/Dashboard/Statistics/AdminStatistics";
 import ManageUsers from "../Components/Dashboard/Admin/ManageUsers";
 import BecomeMember from "../Components/Dashboard/BecomeMember/BecomeMember";
+import MemberRequests from "../Components/Dashboard/Admin/MemberRequests";
 
 
 export const router = createBrowserRouter([
@@ -147,6 +148,11 @@ export const router = createBrowserRouter([
                             path: 'becomeMember',
                             element: <BecomeMember></BecomeMember>
                         },
+                        {
+                            path: 'memberRequests',
+                            element: <MemberRequests></MemberRequests>
+                        },
+                        
 
                     ]
             }

@@ -69,6 +69,12 @@ const DashboardLayout = () => {
                                             Manage Users
                                         </NavLink>
                                     </li>
+                                    <li>
+                                        <NavLink to="/dashboard/memberRequests" className="text-orange-600 font-semibold flex gap-2">
+                                <SiSamsclub className="size-4" />
+                                            Member Requests
+                                        </NavLink>
+                                    </li>
 
                                     <li>
                                         <NavLink to="/dashboard/paymentHistory" className="text-orange-600 font-semibold flex gap-2">

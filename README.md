@@ -4,7 +4,8 @@
 ## Project Purpose
 This project is designed to manage users and membership requests for a club or community platform. It allows users to request membership, admins to manage users and their roles, and provides secure authentication using JWT.
 
-### Live URL
+### Live URL:
+https://heroic-sorbet-ffe0b3.netlify.app/
 
 
 ## Key Features

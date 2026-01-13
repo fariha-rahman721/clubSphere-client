@@ -11,15 +11,20 @@ import { Link } from "react-router";
 const Hero = ({ data }) => {
 
     return (
-        <Container>
-            <div className="w-11/12 mx-auto h-[260px] sm:h-[350px] md:h-[500px] lg:h-[600px]  sm:px-4">
+        <div className={``} >
+            <div className="w-full h-[260px] sm:h-[350px] md:h-[500px] lg:h-[650px]  sm:px-4"
+            style={{
+                width: "100vw",
+                maxWidth: "100vw",
+                marginLeft: "calc(-50vw + 50%)",
+            }}>
                 <Swiper
                     modules={[Autoplay, Pagination, EffectFade]}
                     autoplay={{ delay: 2000 }}
                     effect="fade"
                     pagination={{ clickable: true }}
                     loop={true}
-                    className="h-full"
+                    className="h-full w-full"
                 >
                     {data.map((item) => (
                         <SwiperSlide key={item._id}>
@@ -61,7 +66,7 @@ const Hero = ({ data }) => {
                                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
 
                                         <Link
-                                            to="/challenges"
+                                            to="/allClubs"
                                             className="bg-[#FFAA6E] hover:bg-orange-200 text-white 
                                                 px-6 sm:px-8 py-2.5 sm:py-3 
                                                 text-sm sm:text-base 
@@ -88,7 +93,7 @@ const Hero = ({ data }) => {
                     ))}
                 </Swiper>
             </div>
-        </Container>
+        </div>
     );
 
 };

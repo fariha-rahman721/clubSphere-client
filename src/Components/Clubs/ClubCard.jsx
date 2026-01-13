@@ -12,7 +12,7 @@ const ClubCard = ({ club }) => {
                 border border-slate-100 
                 flex flex-col
                 transition-all duration-300 ease-out 
-                hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl
+                hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl 
             "
         >
             {/* Image Section */}
@@ -26,28 +26,27 @@ const ClubCard = ({ club }) => {
             </figure>
 
             {/* Details Section */}
-            <div className="p-8 flex flex-col bg-linear-to-l from-orange-200 via-orange-100 to-orange-50 justify-between">
+            <div className="p-8 flex h-60 lg:h-[300px] flex-col bg-linear-to-l from-orange-200 via-orange-100 to-orange-50 justify-between">
                 <div>
                     <div className="text-2xl font-bold flex items-center gap-2 mb-4">
                         {club.clubName}
-                        {club.status === 'approved' && (
-                            <span className="text-green-600 flex items-center gap-1 text-sm font-medium">
-                                <CheckCircle className="w-4 h-4" /> Approved
-                            </span>
-                        )}
+                       
                     </div>
 
                     <div className="flex flex-col gap-2 text-sm">
-                        <div>
-                            <span className="font-medium">Category:</span> {club.category}
+                        <div className=''>
+                            <span className="font-medium flex">Category {club.category}</span> 
+                            <span className='font-semibold'>Manager Email: </span>{club.managerEmail}
+                            
                         </div>
+                       <p className='font-semibold'> Located at {club.location}</p>
                     </div>
                 </div>
 
                 <div className="pt-4">
                     <Link
                         to={`/clubDetails/${club._id || club.clubName}`}
-                        className="btn bg-orange-400 w-full text-white rounded-xl"
+                        className="btn bg-[#ed7118] hover:bg-orange-500 w-full text-white rounded-xl"
                     >
                        View more
                     </Link>

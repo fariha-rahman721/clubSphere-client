@@ -5,12 +5,13 @@ import Clubs from '../../Components/Clubs/Clubs';
 import HowClubSphereWorks from '../HowClubSphereWorks/HowClubSphereWorks';
 import Banner from '../../Components/Banner';
 import WhyJoinClub from '../WhyJoinClub/WhyJoinClub';
+import Testimonial from '../Testimonial/Testimonial';
+import Statistics from '../Statistics/Statistics';
 
 
 
 const Home = () => {
     const data = useLoaderData();
-
 
     return (
         <div>
@@ -19,6 +20,8 @@ const Home = () => {
             <Clubs data={data}></Clubs>
             <WhyJoinClub></WhyJoinClub>
             <HowClubSphereWorks data={data}></HowClubSphereWorks>
+            <Statistics></Statistics>
+            <Testimonial></Testimonial>
         </div>
     );
 };

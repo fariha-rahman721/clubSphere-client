@@ -28,6 +28,7 @@ import AdminStatistics from "../Components/Dashboard/Statistics/AdminStatistics"
 import ManageUsers from "../Components/Dashboard/Admin/ManageUsers";
 import BecomeMember from "../Components/Dashboard/BecomeMember/BecomeMember";
 import MemberRequests from "../Components/Dashboard/Admin/MemberRequests";
+import Support from "../Pages/Support/Support";
 
 
 export const router = createBrowserRouter([
@@ -83,6 +84,11 @@ export const router = createBrowserRouter([
             {
                 path: '/eventDetails/:id',
                 element: <EventDetails></EventDetails>
+            },
+            {
+
+                path: '/support',
+                element: <Support></Support>
             },
 
 

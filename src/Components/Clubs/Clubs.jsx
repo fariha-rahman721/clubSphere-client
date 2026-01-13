@@ -23,31 +23,32 @@ const Clubs = ({ data = [] }) => {
             <p className="text-center mb-8">Join the most active communities in your area.</p>
 
             <Swiper
-                slidesPerView={1}
+                slidesPerView={1} 
+                slidesPerGroup={1} 
                 centeredSlides={false}
-                slidesPerGroupSkip={1}
                 grabCursor={true}
-                keyboard={{
-                    enabled: true,
-                }}
+                keyboard={{ enabled: true }}
                 breakpoints={{
-                    769: {
+                    640: {
                         slidesPerView: 2,
                         slidesPerGroup: 2,
+                    },
+                    1024: {
+                        slidesPerView: 4, 
+                        slidesPerGroup: 4,
                     },
                 }}
                 scrollbar={true}
                 navigation={true}
-                pagination={{
-                    clickable: true,
-                }}
+                pagination={{ clickable: true }}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
             >
+
                 {data.map((club) => (
 
                     <SwiperSlide key={club._id || club.clubName} >
-                        <div className="w-11/12 mx-auto">
+                        <div className="w-full mx-auto">
 
                             <ClubCard club={club} />
                         </div>

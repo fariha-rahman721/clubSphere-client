@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import useAxiosSecure from '../../Hooks/UseAxiosSecure';
 import toast from 'react-hot-toast';
 
@@ -16,18 +16,25 @@ const BecomeMember = () => {
                 toast.error('Something went wrong. Try again.');
             }
         }
-
     };
 
     return (
-        <div className='w-5/12 mx-auto mt-10'>
-            <div className="card bg-base-100 w-96 shadow-sm">
+        <div className='w-full sm:w-10/12 md:w-7/12 lg:w-5/12 mx-auto mt-10 px-4'>
+            <div className="card bg-base-100 w-full sm:w-[90%] md:w-96 mx-auto shadow-sm">
                 <div className="card-body">
-                    <h2 className="card-title text-xl text-center text-orange-500 font-bold">Become A Member</h2>
-                    <p>Please read all our trems and conditions to become a member</p>
+                    <h2 className="card-title text-lg sm:text-xl text-center text-orange-500 font-bold">
+                        Become A Member
+                    </h2>
+                    <p className="text-sm sm:text-base text-center">
+                        Please read all our trems and conditions to become a member
+                    </p>
                     <div className="card-actions flex justify-center gap-4 mt-3">
-                        <button onClick={handleRequest} className="btn bg-orange-500 text-white font-semibold hover:bg-orange-400">Continue</button>
-                        
+                        <button
+                            onClick={handleRequest}
+                            className="btn bg-orange-500 text-white font-semibold hover:bg-orange-400 w-full sm:w-auto"
+                        >
+                            Continue
+                        </button>
                     </div>
                 </div>
             </div>

@@ -1,11 +1,11 @@
-import React, { use } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 import toast from 'react-hot-toast';
-import { User as UserIcon, ChevronDown } from 'lucide-react';
+import { User as UserIcon, ChevronDown, Sun, Moon } from 'lucide-react';
 
 const Navbar = () => {
-    const { user, logOut } = use(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
 
     const handleLogout = () => {
         logOut()
@@ -18,8 +18,8 @@ const Navbar = () => {
             <NavLink
                 className={({ isActive }) =>
                     isActive
-                        ? "font-bold text-orange-700"
-                        : "hover:text-orange-900 font-semibold transition"
+                        ? `font-bold ${darkMode ? 'text-yellow-400' : 'text-orange-700'}`
+                        : `hover:${darkMode ? 'text-yellow-300' : 'text-orange-900'} font-semibold transition-colors`
                 }
                 to="/"
             >
@@ -29,8 +29,8 @@ const Navbar = () => {
             <NavLink
                 className={({ isActive }) =>
                     isActive
-                        ? "font-bold text-orange-700"
-                        : "hover:text-orange-900 font-semibold transition"
+                        ? `font-bold ${darkMode ? 'text-yellow-400' : 'text-orange-700'}`
+                        : `hover:${darkMode ? 'text-yellow-300' : 'text-orange-900'} font-semibold transition-colors`
                 }
                 to="/allClubs"
             >
@@ -40,103 +40,145 @@ const Navbar = () => {
             <NavLink
                 className={({ isActive }) =>
                     isActive
-                        ? "font-bold text-orange-700"
-                        : "hover:text-orange-900 font-semibold transition"
+                        ? `font-bold ${darkMode ? 'text-yellow-400' : 'text-orange-700'}`
+                        : `hover:${darkMode ? 'text-yellow-300' : 'text-orange-900'} font-semibold transition-colors`
                 }
                 to="/events"
             >
                 Events
             </NavLink>
-            
-             {
-            user && <>
+
             <NavLink
                 className={({ isActive }) =>
                     isActive
-                        ? "font-bold text-orange-700"
-                        : "hover:text-orange-900 font-semibold transition"
+                        ? `font-bold ${darkMode ? 'text-yellow-400' : 'text-orange-700'}`
+                        : `hover:${darkMode ? 'text-yellow-300' : 'text-orange-900'} font-semibold transition-colors`
                 }
-                to="/dashboard/myClubs"
+                to="/support"
             >
-                My Clubs
+                Support
             </NavLink>
-            </>
-        }
+
+            {user && (
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive
+                            ? `font-bold ${darkMode ? 'text-yellow-400' : 'text-orange-700'}`
+                            : `hover:${darkMode ? 'text-yellow-300' : 'text-orange-900'} font-semibold transition-colors`
+                    }
+                    to="/dashboard/myClubs"
+                >
+                    My Clubs
+                </NavLink>
+            )}
         </>
-       
     );
-    
+
+    // Dark mode state
+    const [darkMode, setDarkMode] = useState(false);
+
+
+    // Apply/remove dark class to html
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [darkMode]);
 
     return (
-        <div className="navbar sticky top-0 z-50 w-full bg-[#FFAA6E] shadow-sm text-white">
+        <div className={`navbar sticky top-0 z-50 w-full bg-[#FFAA6E] dark:bg-gray-800 shadow-sm text-white px-3 p-5 sm:px-6 transition-colors ${darkMode ? 'bg-gray-900 text-gray-100 hover:text-orange-50' : 'bg-[#FFAA6E] text-white'}`}>
+
+
+            {/* LEFT */}
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
+                            className="h-6 w-6"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                         >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                d="M4 6h16M4 12h8m-8 6h16" />
                         </svg>
                     </div>
 
                     <ul
-                        tabIndex="-1"
-                        className="menu menu-sm dropdown-content gap-4 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content mt-3 w-56 rounded-box bg-white dark:bg-gray-700 text-black dark:text-gray-100 shadow gap-3 p-4"
                     >
                         {links}
                     </ul>
                 </div>
 
-                <NavLink to='/dashboard' className="btn btn-ghost text-xl text-orange-800 font-bold">
+                <NavLink
+                    to="/"
+                    className={`btn btn-ghost text-lg sm:text-xl font-bold transition-colors
+            ${darkMode ? 'text-yellow-400' : 'text-orange-800'}`}
+                >
                     ClubSphere
                 </NavLink>
             </div>
 
-            <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1 gap-4">
+            {/* CENTER */}
+            <div className="navbar-center hidden md:flex">
+                <ul className="menu menu-horizontal gap-6 text-sm lg:text-base">
                     {links}
                 </ul>
             </div>
 
-            <div className="navbar-end flex items-center gap-3">
-                {/* Dropdown before profile */}
+            {/* RIGHT */}
+            <div className="navbar-end flex items-center gap-2 sm:gap-3">
+
+                {/* Dark mode toggle button */}
+                <button
+                    onClick={() => setDarkMode(!darkMode)}
+                    className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                    title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                >
+                    {darkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5" />}
+                </button>
+
+                {/* Profile dropdown */}
                 {user && (
                     <div className="dropdown dropdown-end">
-                        
-                        <label tabIndex={0} className="btn btn-ghost flex items-center gap-1">
+                        <label tabIndex={0} className="btn btn-ghost flex items-center gap-1 px-2">
                             <span className="w-9 h-9 rounded-full overflow-hidden">
                                 {user.photoURL ? (
-                                    <img src={user.photoURL} alt="User" className="w-full h-full object-cover" />
+                                    <img
+                                        src={user.photoURL}
+                                        alt="User"
+                                        className="w-full h-full object-cover"
+                                    />
                                 ) : (
                                     <UserIcon className="w-9 h-9 text-white" />
                                 )}
                             </span>
-                            <ChevronDown className="w-4 h-4" />
+                            <ChevronDown className="w-4 h-4 hidden sm:block" />
                         </label>
+
                         <ul
                             tabIndex={0}
-                            className="dropdown-content menu p-2 shadow bg-white text-black rounded-box w-40 mt-1"
+                            className="dropdown-content menu p-2 shadow bg-white dark:bg-gray-700 text-black dark:text-gray-100 rounded-box w-44"
                         >
-                           <li><NavLink to='/userProfile'>Your Profile</NavLink></li>
-                            <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
-                            
+                            <li><NavLink to="/userProfile">Your Profile</NavLink></li>
+                            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+                            <li><NavLink to="/support">Support</NavLink></li>
+                            {user ? (
+                                <button onClick={handleLogout} className="btn btn-sm mt-2 sm:btn-md">
+                                    Logout
+                                </button>
+                            ) : (
+                                <Link to="/auth/login" className="btn btn-sm mt-2 sm:btn-md">
+                                    Login
+                                </Link>
+                            )}
                         </ul>
                     </div>
-                )}
-
-                {/* Login / Logout button */}
-                {user ? (
-                    <button onClick={handleLogout} className="btn">
-                        Logout
-                    </button>
-                ) : (
-                    <Link to="/auth/login" className="btn">
-                        Login
-                    </Link>
                 )}
             </div>
         </div>

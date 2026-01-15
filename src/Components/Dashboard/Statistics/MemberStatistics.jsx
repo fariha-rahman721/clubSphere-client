@@ -2,7 +2,7 @@ import React from 'react';
 
 const MemberStatistics = () => {
     return (
-        <div>
+        <div className='section'>
             <h1>Member Statistics</h1>
         </div>
     );

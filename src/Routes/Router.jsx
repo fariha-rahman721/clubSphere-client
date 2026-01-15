@@ -29,6 +29,11 @@ import ManageUsers from "../Components/Dashboard/Admin/ManageUsers";
 import BecomeMember from "../Components/Dashboard/BecomeMember/BecomeMember";
 import MemberRequests from "../Components/Dashboard/Admin/MemberRequests";
 import Support from "../Pages/Support/Support";
+import Privacy from "../Pages/Privacy/Privacy";
+import About from "../Pages/About/About";
+import Contact from "../Pages/Contact/Contact";
+import Blogs from "../Components/Blogs/Blogs";
+import BlogDetails from "../Components/Blogs/BlogDetails";
 
 
 export const router = createBrowserRouter([
@@ -89,6 +94,31 @@ export const router = createBrowserRouter([
 
                 path: '/support',
                 element: <Support></Support>
+            },
+            {
+
+                path: '/privacy',
+                element: <Privacy></Privacy>
+            },
+            {
+
+                path: '/about',
+                element: <About></About>
+            },
+            {
+
+                path: '/contact',
+                element: <Contact></Contact>
+            },
+            {
+
+                path: '/blogs',
+                element: <Blogs></Blogs>
+            },
+            {
+
+                path: '/blogDetails/:id',
+                element: <BlogDetails></BlogDetails>
             },
 
 

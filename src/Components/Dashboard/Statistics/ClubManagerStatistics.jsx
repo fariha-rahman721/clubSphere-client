@@ -2,7 +2,7 @@ import React from 'react';
 
 const ClubManagerStatistics = () => {
     return (
-        <div>
+        <div className='section'>
             <h1>Club Manager Statistics</h1>
         </div>
     );

@@ -109,7 +109,7 @@ const MyEvents = () => {
                         <Link
                             key={event._id}
                             to={`/eventDetails/${event._id}`}
-                            className="bg-white rounded-xl shadow border overflow-hidden hover:shadow-lg transition"
+                            className="bg-white rounded-xl shadow border section overflow-hidden hover:shadow-lg transition"
                         >
                             <div className="relative h-72">
                                 <img

@@ -19,7 +19,7 @@ const BecomeMember = () => {
     };
 
     return (
-        <div className='w-full sm:w-10/12 md:w-7/12 lg:w-5/12 mx-auto mt-10 px-4'>
+        <div className='w-full section sm:w-10/12 md:w-7/12 lg:w-5/12 mx-auto mt-10 px-4'>
             <div className="card bg-base-100 w-full sm:w-[90%] md:w-96 mx-auto shadow-sm">
                 <div className="card-body">
                     <h2 className="card-title text-lg sm:text-xl text-center text-orange-500 font-bold">

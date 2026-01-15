@@ -48,7 +48,7 @@ const ClubRegRequests = () => {
     if (isLoading) return <Loading />
 
     return (
-        <div className='container mx-auto px-4 sm:px-8'>
+        <div className='container section mx-auto px-4 sm:px-8'>
             <div className='py-8'>
                 <h2 className='text-2xl font-bold mb-6'>
                     Club Manager Requests

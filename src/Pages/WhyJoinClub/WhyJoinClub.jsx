@@ -3,8 +3,8 @@ import React from 'react';
 
 const WhyJoinClub = () => {
     return (
-        <div className='w-11/12 mx-auto px-2 sm:px-4'>
-            <h1 className='text-2xl sm:text-3xl font-extrabold text-[#FFAA6E] text-center'>
+        <div className='section  w-11/12 mx-auto px-2 sm:px-4'>
+            <h1 className='text-2xl why-join sm:text-3xl font-extrabold text-[#FFAA6E] text-center'>
                 <span className='text-black'>Why</span> Join A Club
             </h1>
 

@@ -26,7 +26,7 @@ const CreateEvent = ({ onSubmit, onCancel }) => {
     };
 
     return (
-        <div className="max-w-xl mx-auto m-10 bg-white shadow-md rounded-lg p-6">
+        <div className="max-w-xl section mx-auto m-10 bg-white shadow-md rounded-lg p-6">
             <div className="bg-[#FFAA6E]">
             <h2 className="text-2xl font-bold p-6 text-white mb-6 text-center">
                 Create New Event

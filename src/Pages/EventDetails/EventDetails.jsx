@@ -134,7 +134,7 @@ const EventDetails = () => {
   } = event;
 
   return (
-    <div className="card w-full md:w-5/12 mx-auto bg-white shadow-lg rounded-xl my-6">
+    <div className="section card w-full md:w-5/12 mx-auto bg-white shadow-lg rounded-xl my-6">
       <div className="bg-[#FFAA6E]  p-8">
         <h2 className="text-2xl font-bold text-white text-center">{title}</h2>
       </div>

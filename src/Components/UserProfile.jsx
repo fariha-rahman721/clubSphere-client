@@ -70,8 +70,8 @@ const UserProfile = () => {
                 </div>
                 <div className="m-2 rounded-2xl">
                     <p className='p-2 text-center w-1/2 mx-auto font-bold bg-orange-200'>
-                            {isRoleLoading ? 'Loading...' : role || 'User'}
-                        </p>
+                        {isRoleLoading ? 'Loading...' : role || 'User'}
+                    </p>
                 </div>
 
                 <div className="px-6 pb-6">
@@ -82,7 +82,7 @@ const UserProfile = () => {
                         <p className="text-gray-600">
                             User Email : {user?.email || "No email available"}
                         </p>
-                        
+
                     </div>
 
                     <div className="flex flex-col gap-3 mb-4">

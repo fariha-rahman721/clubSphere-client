@@ -24,7 +24,7 @@ const stepsData = [
 
 const HowItWorks = () => {
     return (
-        <div className="py-16 md:py-24 bg-white">
+        <div className="py-16 how-work md:py-24 bg-white section">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
                 <h2 className="text-4xl font-extrabold text-gray-900 mb-4">

@@ -1,6 +1,73 @@
-@plugin "daisyui";
 @import "tailwindcss";
+@plugin "daisyui";
 
-@plugin "daisyui/theme"{
-    --color-primary: #FFAA6E;
+@plugin "daisyui/theme" {
+  --color-primary: #FFAA6E;
 }
+
+/* Global section base */
+
+
+/* Dark mode for all sections */
+html.dark .section {
+  @apply bg-gray-900 text-yellow-400;
+}
+html.dark .sp-t p {
+  @apply text-yellow-400;
+}
+html.dark .dash{
+  @apply text-white bg-gray-800;
+}
+
+html.dark .support h1{
+    @apply text-yellow-300;
+}
+html.dark .why-join h1 {
+    color: #fbbf24;
+}
+html.dark .how-work h2{
+    @apply text-yellow-300;
+}
+
+
+/* Footer dark mode */
+html.dark .footer {
+  background-color: #000000 !important;
+  color: #facc15 !important;
+}
+
+html.dark .footer a {
+  color: #fbbf24 !important;
+}
+
+/* Dashboard dark mode */
+
+/* Sidebar dark mode */
+html.dark .drawer-side > div.bg-base-200 {
+  background-color: #343030 !important; /* black */
+  color: #facc15 !important; /* yellow-400 text */
+}
+
+/* Sidebar menu links */
+html.dark .drawer-side > div.bg-base-200 a {
+  color: #facc15 !important; /* yellow-400 */
+}
+
+/* Sidebar menu links hover */
+html.dark .drawer-side > div.bg-base-200 a:hover {
+  color: #fbbf24 !important; /* yellow-300 */
+}
+
+
+/* Top navbar / main dashboard content */
+html.dark .drawer-content  {
+  background-color: #443f3f !important; /* black */
+  color: #facc15 !important; /* yellow-400 */
+}
+
+/* Optional: content area background */
+html.dark .drawer-content {
+  background-color: #1a1a1a !important; /* dark gray for content area */
+  color: #facc15 !important;
+}
+

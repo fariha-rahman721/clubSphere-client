@@ -34,8 +34,8 @@ const Clubs = ({ data = [] }) => {
                         slidesPerGroup: 2,
                     },
                     1024: {
-                        slidesPerView: 4, 
-                        slidesPerGroup: 4,
+                        slidesPerView: 3, 
+                        slidesPerGroup: 3,
                     },
                 }}
                 scrollbar={true}

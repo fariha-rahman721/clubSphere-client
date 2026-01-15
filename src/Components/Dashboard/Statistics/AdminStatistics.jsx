@@ -4,7 +4,7 @@ import { MdEventAvailable } from 'react-icons/md'
 
 const AdminStatistics = () => {
     return (
-        <div className='mt-12'>
+        <div className='mt-12 section'>
             {/* Small statistic cards */}
             <div className='mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 

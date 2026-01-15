@@ -25,7 +25,7 @@ const Support = () => {
     );
 
     return (
-        <div className="bg-white min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+        <div className="bg-white support min-h-screen py-20 px-4 sm:px-6 lg:px-8 section">
             <div className="max-w-3xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-16">

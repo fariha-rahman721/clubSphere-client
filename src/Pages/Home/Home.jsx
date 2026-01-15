@@ -14,7 +14,7 @@ const Home = () => {
     const data = useLoaderData();
 
     return (
-        <div>
+        <div className='section'>
             <Hero data={data} />
             <Banner data={data}></Banner>
             <Clubs data={data}></Clubs>

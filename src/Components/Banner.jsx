@@ -10,7 +10,7 @@ const CategorySwiper = ({ data }) => {
     const allCategories = [...new Set(data.map(item => item.category))];
 
     return (
-        <div className="my-8 w-11/12 mx-auto ">
+        <div className="my-8 section w-11/12 mx-auto ">
             <h2 className="text-3xl font-bold mb-6 text-center mt-10 ">Explore by <span className='text-[#FFAA6E]'>Categories</span></h2>
 
             <Swiper

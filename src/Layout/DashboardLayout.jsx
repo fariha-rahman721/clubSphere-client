@@ -9,9 +9,12 @@ import Loading from '../Components/Loading';
 const DashboardLayout = () => {
     const [role, isRoleLoading] = UseRole();
 
-    const isAdmin = role === 'Admin';
-    const isManager = role === 'Club Manager';
-    const isMember = role === 'Member';
+    // Normalize role string to match DB values
+    const normalizedRole = role?.toLowerCase();
+
+    const isAdmin = normalizedRole === 'admin';
+    const isManager = normalizedRole === 'manager'; // <-- was 'Club Manager'
+    const isMember = normalizedRole === 'member';
 
     if (isRoleLoading) {
         return <Loading />;
@@ -24,7 +27,7 @@ const DashboardLayout = () => {
             {/* MAIN CONTENT */}
             <div className="drawer-content flex flex-col">
                 {/* Navbar */}
-                <nav className="navbar w-full bg-base-300 px-3 sm:px-6 z-20 relative">
+                <nav className="navbar w-full dash bg-base-300 px-3 sm:px-6 z-20 relative">
                     <label
                         htmlFor="my-drawer-4"
                         className="btn btn-square btn-ghost lg:hidden z-30 relative"
@@ -104,12 +107,15 @@ const DashboardLayout = () => {
 
                         {/* CLUB MANAGER MENU */}
                         {!isRoleLoading && isManager && (
-                            <li>
-                                <NavLink to="/dashboard/createEvent" className="text-orange-600 font-semibold flex gap-2">
-                                    <MdCreateNewFolder />
-                                    Create Events
-                                </NavLink>
-                            </li>
+                            <>
+                                <li>
+                                    <NavLink to="/dashboard/createEvent" className="text-orange-600 font-semibold flex gap-2">
+                                        <MdCreateNewFolder />
+                                        Create Events
+                                    </NavLink>
+                                </li>
+                                
+                            </>
                         )}
 
                         {/* MEMBER MENU */}

@@ -7,7 +7,7 @@ const Events = ({ clubName }) => {
     
 
     return (
-        <div className="w-11/12 mx-auto my-10">
+        <div className="section w-11/12 mx-auto my-10">
             <h1 className="text-3xl p-7 text-center font-bold text-[#FFAA6E]">Upcoming Events</h1>
             <div className="w-11/12 mx-auto grid md:grid-cols-2 lg:grid-cols-2 gap-6">
                 {events.map((event) => {

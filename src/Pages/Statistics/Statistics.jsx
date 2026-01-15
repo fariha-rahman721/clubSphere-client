@@ -9,7 +9,7 @@ const stats = [
 
 const Statistics = () => {
     return (
-        <section className="bg-white py-16">
+        <section className="bg-white py-16 section">
             <div className="max-w-6xl mx-auto px-4 text-center">
                 <h2 className="text-4xl font-bold mb-12 text-gray-800">Our <span className='text-[#FFAA6E]'>Achievements</span></h2>
 

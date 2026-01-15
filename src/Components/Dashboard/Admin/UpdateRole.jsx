@@ -18,7 +18,7 @@ const UpdateRole = ({ req, refetch }) => {
         }
     }
     return (
-        <tr>
+        <tr className='section'>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                 <p className='text-gray-900 '>{req?.email}</p>
             </td>
